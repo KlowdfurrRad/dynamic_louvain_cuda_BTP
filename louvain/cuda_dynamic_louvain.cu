@@ -691,9 +691,12 @@ static void run_louvain_phases(
 {
     int old_n_nodes = -1;
     bool first_pass = true;
+    int pass_count = 0;
+    const int MAX_PASSES = 20;
 
-    while (old_n_nodes != n_nodes) {
+    while (old_n_nodes != n_nodes && pass_count < MAX_PASSES) {
         old_n_nodes = n_nodes;
+        pass_count++;
 
         // Reset locks
         cudaMemset(d_vertex_locks, 0, n_nodes * sizeof(int));
@@ -719,6 +722,14 @@ static void run_louvain_phases(
         CUDA_CHECK(cudaLaunchCooperativeKernel((void*)louvain_kernel, 32, 512, kernelArgs));
         CUDA_CHECK(cudaDeviceSynchronize());
         cout << "Louvain kernel phase completed." << endl;
+
+        // Check if this phase made any meaningful improvement
+        double h_delta_Q_sum;
+        cudaMemcpyFromSymbol(&h_delta_Q_sum, delta_Q_sum, sizeof(double));
+        if (h_delta_Q_sum < 1e-6) {
+            cout << "Negligible modularity improvement (" << h_delta_Q_sum << "). Stopping." << endl;
+            break;
+        }
 
         first_pass = false;
 
@@ -1470,7 +1481,8 @@ int main() {
     for (int i = 0; i < m_edges; i++) {
         int u, v;
         double w;
-        cin >> u >> v >> w;
+        cin >> u >> v; // >> w;
+        w = 1.0;
         adj[u].emplace_back(v, w);
         adj[v].emplace_back(u, w);
     }
