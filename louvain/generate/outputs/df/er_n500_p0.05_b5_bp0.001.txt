@@ -1,0 +1,18 @@
+===== STATIC =====
+Static: Q=-0.011666  communities=16  passes=3  time=98 ms
+[batch 1] ND: Q=-0.013839 comms=12 time=6 ms
+[batch 1] DF: Q=-0.006290 comms=16 affected0=10 time=1 ms
+[batch 1] DS: Q=0.072373 comms=11 affected0=323 time=8 ms
+[batch 2] ND: Q=-0.011086 comms=12 time=6 ms
+[batch 2] DF: Q=-0.001387 comms=16 affected0=8 time=1 ms
+[batch 2] DS: Q=0.092244 comms=6 affected0=335 time=7 ms
+[batch 3] ND: Q=-0.011190 comms=12 time=6 ms
+[batch 3] DF: Q=0.003365 comms=16 affected0=12 time=1 ms
+[batch 3] DS: Q=0.097488 comms=6 affected0=471 time=5 ms
+[batch 4] ND: Q=-0.011451 comms=12 time=6 ms
+[batch 4] DF: Q=0.012510 comms=16 affected0=16 time=1 ms
+[batch 4] DS: Q=0.105875 comms=6 affected0=438 time=6 ms
+[batch 5] ND: Q=-0.012775 comms=12 time=7 ms
+[batch 5] DF: Q=0.017816 comms=16 affected0=12 time=1 ms
+[batch 5] DS: Q=0.116691 comms=6 affected0=459 time=6 ms
+DF communities written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/generate/outputs/df/er_n500_p0.05_b5_bp0.001_communities.txt

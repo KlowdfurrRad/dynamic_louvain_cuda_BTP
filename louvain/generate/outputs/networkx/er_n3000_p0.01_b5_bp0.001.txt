@@ -1,0 +1,12 @@
+Running er_n3000_p0.01_b5_bp0.001.txt...
+  initial : nodes=3000 edges=44700 Q=0.162802 communities=11 time=0.9494s
+  batch 1  : nodes=3000 edges=44700 Q=0.162441 communities=10 time=0.6731s
+  batch 2  : nodes=3000 edges=44700 Q=0.163902 communities=10 time=1.0720s
+  batch 3  : nodes=3000 edges=44700 Q=0.164235 communities=10 time=1.0530s
+  batch 4  : nodes=3000 edges=44700 Q=0.164473 communities=9 time=0.9440s
+  batch 5  : nodes=3000 edges=44700 Q=0.166603 communities=8 time=1.0050s
+  TOTAL Louvain time over 6 invocation(s): 5.6966s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+er_n3000_p0.01_b5_bp0.001.txt       3000        44700     0.162802            11     0.9494      5.6966

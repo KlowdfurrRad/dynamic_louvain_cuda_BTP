@@ -1,0 +1,12 @@
+Running er_n100_p0.10_b5_bp0.001.txt...
+  initial : nodes=100 edges=474 Q=0.272697 communities=7 time=0.0069s
+  batch 1  : nodes=100 edges=474 Q=0.273799 communities=7 time=0.0065s
+  batch 2  : nodes=100 edges=474 Q=0.268493 communities=7 time=0.0053s
+  batch 3  : nodes=100 edges=474 Q=0.258650 communities=7 time=0.0085s
+  batch 4  : nodes=100 edges=474 Q=0.263798 communities=6 time=0.0058s
+  batch 5  : nodes=100 edges=474 Q=0.263201 communities=7 time=0.0063s
+  TOTAL Louvain time over 6 invocation(s): 0.0393s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+er_n100_p0.10_b5_bp0.001.txt        100          474     0.272697             7     0.0069      0.0393
