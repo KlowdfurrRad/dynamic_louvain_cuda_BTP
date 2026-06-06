@@ -1,0 +1,3 @@
+===== STATIC =====
+Static: Q=0.741345  communities=24225  passes=4  time=616 ms
+DF communities written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/real_graphs/outputs_snap/df/com-dblp_communities.txt

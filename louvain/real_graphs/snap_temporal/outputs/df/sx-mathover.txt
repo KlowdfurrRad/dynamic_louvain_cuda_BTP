@@ -1,0 +1,18 @@
+===== STATIC =====
+Static: Q=0.269963  communities=6597  passes=3  time=213 ms
+[batch 1] ND: Q=0.296531 comms=5290 time=41 ms
+[batch 1] DF: Q=0.283522 comms=5297 affected0=2902 time=18 ms
+[batch 1] DS: Q=0.294672 comms=5080 affected0=19723 time=20 ms
+[batch 2] ND: Q=0.194820 comms=4185 time=26 ms
+[batch 2] DF: Q=0.285238 comms=4283 affected0=2909 time=4 ms
+[batch 2] DS: Q=0.196573 comms=3912 affected0=20996 time=20 ms
+[batch 3] ND: Q=0.279584 comms=2938 time=44 ms
+[batch 3] DF: Q=0.289212 comms=2984 affected0=3025 time=20 ms
+[batch 3] DS: Q=0.086868 comms=2623 affected0=22179 time=23 ms
+[batch 4] ND: Q=0.218666 comms=1845 time=23 ms
+[batch 4] DF: Q=0.289923 comms=1993 affected0=2986 time=4 ms
+[batch 4] DS: Q=0.232026 comms=1442 affected0=23378 time=28 ms
+[batch 5] ND: Q=0.276755 comms=659 time=38 ms
+[batch 5] DF: Q=0.291212 comms=919 affected0=3041 time=4 ms
+[batch 5] DS: Q=0.070087 comms=263 affected0=24567 time=25 ms
+DF communities written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/real_graphs/snap_temporal/outputs/df/sx-mathover_communities.txt

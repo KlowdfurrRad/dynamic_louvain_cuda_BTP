@@ -1,0 +1,54 @@
+===== STATIC LOUVAIN =====
+Graph: 4039 nodes, 176468 directed edges
+-0.000603905 is the initial modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Iteration 6 of Louvain kernel completed.
+Total delta Q in this phase: 0.819177
+Louvain kernel phase completed.
+Number of communities: 88
+Edges after combining: 552
+0.814138 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Total delta Q in this phase: 0.022000
+Louvain kernel phase completed.
+Number of communities: 12
+Edges after combining: 76
+0.682515 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Iteration 6 of Louvain kernel completed.
+Iteration 7 of Louvain kernel completed.
+Iteration 8 of Louvain kernel completed.
+Iteration 9 of Louvain kernel completed.
+Iteration 10 of Louvain kernel completed.
+Iteration 11 of Louvain kernel completed.
+Iteration 12 of Louvain kernel completed.
+Iteration 13 of Louvain kernel completed.
+Iteration 14 of Louvain kernel completed.
+Iteration 15 of Louvain kernel completed.
+Iteration 16 of Louvain kernel completed.
+Total delta Q in this phase: 9.166221
+Louvain kernel phase completed.
+Number of communities: 2
+Edges after combining: 4
+0.460742 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Total delta Q in this phase: 0.000000
+Louvain kernel phase completed.
+Negligible modularity improvement (0). Stopping.
+Static Louvain: final 2 communities, 4 edges
+Static execution time: 1461 ms
+Community sizes: 0:2193 1:1846 
+Community assignments written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/Btp/louvain/real_graphs/outputs/normal/facebook_communities.txt
+
+Done.

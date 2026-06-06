@@ -1,0 +1,7 @@
+Running com-amazon_converted.txt...
+  initial : nodes=334863 edges=925872 Q=0.925850 communities=238 time=58.4737s
+  TOTAL Louvain time over 1 invocation(s): 58.4737s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+com-amazon_converted.txt     334863       925872     0.925850           238    58.4737     58.4737

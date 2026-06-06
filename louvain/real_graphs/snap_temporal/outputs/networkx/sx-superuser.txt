@@ -1,0 +1,12 @@
+Running sx-superuser.txt...
+  initial : nodes=192409 edges=571656 Q=0.411821 communities=46488 time=26.1696s
+  batch 1  : nodes=192409 edges=600239 Q=0.410834 communities=37363 time=35.3892s
+  batch 2  : nodes=192409 edges=628822 Q=0.414697 communities=28782 time=40.3151s
+  batch 3  : nodes=192409 edges=657405 Q=0.417306 communities=19710 time=43.3451s
+  batch 4  : nodes=192409 edges=685988 Q=0.416345 communities=10661 time=40.0254s
+  batch 5  : nodes=192409 edges=714570 Q=0.417633 communities=1833 time=46.6064s
+  TOTAL Louvain time over 6 invocation(s): 231.8507s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+sx-superuser.txt     192409       571656     0.411821         46488    26.1696    231.8507

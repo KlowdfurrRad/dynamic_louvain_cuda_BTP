@@ -1,0 +1,21 @@
+-0.00227213 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.920584
+Louvain kernel phase completed.
+New Number of communities: 290
+New number of edges after aggregation: 39
+0.00409643 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000000
+Louvain kernel phase completed.
+New Number of communities: 290
+New number of edges after aggregation: 39
+0.00409643 is the current modularity.
+Final number of nodes: 290 and edges: 39
+0.00409643 is the final modularity.
+Execution time: 102 milliseconds
+Community assignments written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/real_graphs/snap_temporal/outputs/cuda_static/CollegeMsg_communities.txt

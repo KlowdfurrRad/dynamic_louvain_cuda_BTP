@@ -1,0 +1,7 @@
+Running ca-HepTh_converted.txt...
+  initial : nodes=9875 edges=25973 Q=0.766855 communities=482 time=0.8710s
+  TOTAL Louvain time over 1 invocation(s): 0.8710s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+ca-HepTh_converted.txt       9875        25973     0.766855           482     0.8710      0.8710

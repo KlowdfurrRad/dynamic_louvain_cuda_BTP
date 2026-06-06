@@ -1,0 +1,978 @@
+-0.000409079 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.290453
+Louvain kernel phase completed.
+New Number of communities: 73721
+New number of edges after aggregation: 541473
+0.288267 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.118580
+Louvain kernel phase completed.
+New Number of communities: 46883
+New number of edges after aggregation: 31034
+0.402 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.017001
+Louvain kernel phase completed.
+New Number of communities: 45041
+New number of edges after aggregation: 9614
+0.40621 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.001738
+Louvain kernel phase completed.
+New Number of communities: 44642
+New number of edges after aggregation: 6889
+0.406692 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.295037
+Louvain kernel phase completed.
+New Number of communities: 44476
+New number of edges after aggregation: 4460
+0.297184 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000396
+Louvain kernel phase completed.
+New Number of communities: 44079
+New number of edges after aggregation: 4358
+0.272935 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.058786
+Louvain kernel phase completed.
+New Number of communities: 44034
+New number of edges after aggregation: 4194
+0.242607 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.060769
+Louvain kernel phase completed.
+New Number of communities: 43991
+New number of edges after aggregation: 4157
+0.242617 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.012811
+Louvain kernel phase completed.
+New Number of communities: 43920
+New number of edges after aggregation: 4117
+0.242642 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.058105
+Louvain kernel phase completed.
+New Number of communities: 43848
+New number of edges after aggregation: 4083
+0.242485 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.017741
+Louvain kernel phase completed.
+New Number of communities: 43416
+New number of edges after aggregation: 3791
+-0.0111531 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.054978
+Louvain kernel phase completed.
+New Number of communities: 43225
+New number of edges after aggregation: 3772
+-0.00894196 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.058553
+Louvain kernel phase completed.
+New Number of communities: 43196
+New number of edges after aggregation: 3760
+0.0869088 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 5.274932
+Louvain kernel phase completed.
+New Number of communities: 43066
+New number of edges after aggregation: 3738
+0.0878913 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 4.450169
+Louvain kernel phase completed.
+New Number of communities: 42826
+New number of edges after aggregation: 3081
+-0.863613 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.954433
+Louvain kernel phase completed.
+New Number of communities: 42586
+New number of edges after aggregation: 3061
+-0.818243 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.858616
+Louvain kernel phase completed.
+New Number of communities: 42453
+New number of edges after aggregation: 3040
+-0.815382 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 76.364100
+Louvain kernel phase completed.
+New Number of communities: 42379
+New number of edges after aggregation: 3021
+-0.862039 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.954758
+Louvain kernel phase completed.
+New Number of communities: 42310
+New number of edges after aggregation: 3007
+-0.815414 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.883029
+Louvain kernel phase completed.
+New Number of communities: 41988
+New number of edges after aggregation: 2998
+0.0673653 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.843108
+Louvain kernel phase completed.
+New Number of communities: 41948
+New number of edges after aggregation: 2985
+-0.816319 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.096045
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.096171
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.007933
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.026010
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.867847
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 3.622961
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.870718
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.007494
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.885445
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.002729
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.797604
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.885184
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.100226
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.891803
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.890926
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.102297
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.891475
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.884887
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.887144
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.110484
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.886304
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.886153
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.095811
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.891666
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.096881
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.887581
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.098349
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.887720
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.005115
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.006090
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.986481
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.010630
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.985601
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.011589
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.978036
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.008631
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 2.000896
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.025799
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 2.004079
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.021181
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.980436
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.002810
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 2.006120
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.987814
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.979300
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.012943
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.987928
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.987937
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.990582
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.990578
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.980457
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.015385
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.012307
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.009124
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.985671
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.985661
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.001587
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.980742
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.001469
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.976875
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.007117
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.983277
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.017329
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.980614
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.007080
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.980980
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.

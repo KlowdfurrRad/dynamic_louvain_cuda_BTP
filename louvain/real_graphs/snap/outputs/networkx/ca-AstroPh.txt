@@ -1,0 +1,7 @@
+Running ca-AstroPh_converted.txt...
+  initial : nodes=18771 edges=198050 Q=0.625448 communities=328 time=3.3916s
+  TOTAL Louvain time over 1 invocation(s): 3.3916s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+ca-AstroPh_converted.txt      18771       198050     0.625448           328     3.3916      3.3916

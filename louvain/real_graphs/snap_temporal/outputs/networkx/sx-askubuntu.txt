@@ -1,0 +1,12 @@
+Running sx-askubuntu.txt...
+  initial : nodes=157222 edges=364552 Q=0.460824 communities=33132 time=28.3902s
+  batch 1  : nodes=157222 edges=382780 Q=0.459881 communities=27251 time=30.8871s
+  batch 2  : nodes=157222 edges=401008 Q=0.465101 communities=21164 time=33.2446s
+  batch 3  : nodes=157222 edges=419236 Q=0.465677 communities=14830 time=31.6274s
+  batch 4  : nodes=157222 edges=437464 Q=0.464869 communities=8638 time=24.4827s
+  batch 5  : nodes=157222 edges=455691 Q=0.467651 communities=2273 time=23.9152s
+  TOTAL Louvain time over 6 invocation(s): 172.5471s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+sx-askubuntu.txt     157222       364552     0.460824         33132    28.3902    172.5471

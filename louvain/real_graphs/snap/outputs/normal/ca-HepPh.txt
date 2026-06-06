@@ -1,0 +1,96 @@
+===== STATIC LOUVAIN =====
+Graph: 12006 nodes, 236978 directed edges
+-0.000548322 is the initial modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Iteration 6 of Louvain kernel completed.
+Iteration 7 of Louvain kernel completed.
+Iteration 8 of Louvain kernel completed.
+Iteration 9 of Louvain kernel completed.
+Total delta Q in this phase: 0.591746
+Louvain kernel phase completed.
+Number of communities: 1910
+Edges after combining: 19123
+0.590369 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Iteration 6 of Louvain kernel completed.
+Iteration 7 of Louvain kernel completed.
+Total delta Q in this phase: 0.060386
+Louvain kernel phase completed.
+Number of communities: 413
+Edges after combining: 3848
+0.428263 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Iteration 6 of Louvain kernel completed.
+Iteration 7 of Louvain kernel completed.
+Iteration 8 of Louvain kernel completed.
+Iteration 9 of Louvain kernel completed.
+Iteration 10 of Louvain kernel completed.
+Iteration 11 of Louvain kernel completed.
+Iteration 12 of Louvain kernel completed.
+Iteration 13 of Louvain kernel completed.
+Iteration 14 of Louvain kernel completed.
+Iteration 15 of Louvain kernel completed.
+Iteration 16 of Louvain kernel completed.
+Iteration 17 of Louvain kernel completed.
+Iteration 18 of Louvain kernel completed.
+Iteration 19 of Louvain kernel completed.
+Iteration 20 of Louvain kernel completed.
+Total delta Q in this phase: 6.753425
+Louvain kernel phase completed.
+Number of communities: 155
+Edges after combining: 371
+0.21584 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Iteration 6 of Louvain kernel completed.
+Iteration 7 of Louvain kernel completed.
+Iteration 8 of Louvain kernel completed.
+Iteration 9 of Louvain kernel completed.
+Iteration 10 of Louvain kernel completed.
+Iteration 11 of Louvain kernel completed.
+Iteration 12 of Louvain kernel completed.
+Iteration 13 of Louvain kernel completed.
+Iteration 14 of Louvain kernel completed.
+Iteration 15 of Louvain kernel completed.
+Iteration 16 of Louvain kernel completed.
+Iteration 17 of Louvain kernel completed.
+Iteration 18 of Louvain kernel completed.
+Iteration 19 of Louvain kernel completed.
+Iteration 20 of Louvain kernel completed.
+Total delta Q in this phase: 2.032035
+Louvain kernel phase completed.
+Number of communities: 118
+Edges after combining: 176
+0.36501 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Total delta Q in this phase: 0.000003
+Louvain kernel phase completed.
+Number of communities: 116
+Edges after combining: 162
+0.365392 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Total delta Q in this phase: 0.000000
+Louvain kernel phase completed.
+Negligible modularity improvement (0). Stopping.
+Static Louvain: final 116 communities, 162 edges
+Static execution time: 13478 ms
+Community sizes: 0:2 1:55 2:8 3:2 4:4 5:2 6:2 7:6 8:2 9:4 10:4 11:2 12:4 13:5 14:1631 15:3 16:1933 17:5 18:3 19:4 20:2 21:2 22:4 23:2 24:3 25:1422 26:8 27:6 28:3 29:2 30:2 31:4 32:4 33:2 34:3 35:2 36:3 37:3 38:5 39:3 40:10 41:6232 42:4 43:3 44:2 45:7 46:4 47:3 48:2 49:2 50:2 51:3 52:2 53:2 54:2 55:4 56:4 57:2 58:3 59:2 60:2 61:4 62:3 63:3 64:13 65:2 66:4 67:2 68:2 69:3 70:2 71:4 72:2 73:2 74:3 75:3 76:5 77:3 78:3 79:3 80:2 81:2 82:2 83:2 84:3 85:2 86:2 87:3 88:2 89:30 90:11 91:11 92:33 93:19 94:27 95:6 96:7 97:4 98:4 99:10 100:8 101:6 102:7 103:6 104:5 105:4 106:10 107:5 108:16 109:12 110:14 111:10 112:12 113:12 114:16 115:11 116:5 117:5 118:4 119:4 120:9 121:10 122:4 123:6 124:8 125:6 126:8 127:6 128:4 129:5 130:4 131:10 132:6 133:6 134:2 135:2 136:11 137:2 138:5 139:6 140:3 
+Community assignments written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/Btp/louvain/real_graphs/outputs/normal/ca-HepPh_communities.txt
+
+Done.

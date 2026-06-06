@@ -1,0 +1,12 @@
+Running sx-mathover.txt...
+  initial : nodes=24759 edges=150388 Q=0.307303 communities=5783 time=5.6093s
+  batch 1  : nodes=24759 edges=157908 Q=0.311524 communities=4634 time=7.5197s
+  batch 2  : nodes=24759 edges=165428 Q=0.298593 communities=3521 time=5.6684s
+  batch 3  : nodes=24759 edges=172948 Q=0.304751 communities=2328 time=4.9034s
+  batch 4  : nodes=24759 edges=180467 Q=0.315094 communities=1234 time=4.4228s
+  batch 5  : nodes=24759 edges=187986 Q=0.309705 communities=81 time=5.0767s
+  TOTAL Louvain time over 6 invocation(s): 33.2003s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+sx-mathover.txt      24759       150388     0.307303          5783     5.6093     33.2003

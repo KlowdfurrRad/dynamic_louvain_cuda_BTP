@@ -1,0 +1,18 @@
+===== STATIC =====
+Static: Q=0.364011  communities=43998  passes=3  time=630 ms
+[batch 1] ND: Q=0.378011 comms=36311 time=194 ms
+[batch 1] DF: Q=0.427623 comms=33778 affected0=12089 time=101 ms
+[batch 1] DS: Q=0.415851 comms=32976 affected0=115889 time=157 ms
+[batch 2] ND: Q=0.231962 comms=29712 time=175 ms
+[batch 2] DF: Q=0.428222 comms=27385 affected0=12548 time=75 ms
+[batch 2] DS: Q=0.432266 comms=25697 affected0=126734 time=141 ms
+[batch 3] ND: Q=0.397269 comms=22673 time=179 ms
+[batch 3] DF: Q=0.411426 comms=20877 affected0=12806 time=81 ms
+[batch 3] DS: Q=0.442685 comms=18949 affected0=133786 time=118 ms
+[batch 4] ND: Q=0.408231 comms=16488 time=166 ms
+[batch 4] DF: Q=0.299117 comms=14754 affected0=12609 time=72 ms
+[batch 4] DS: Q=0.375553 comms=12543 affected0=140681 time=128 ms
+[batch 5] ND: Q=0.370917 comms=10143 time=180 ms
+[batch 5] DF: Q=0.350475 comms=8508 affected0=11967 time=120 ms
+[batch 5] DS: Q=0.364586 comms=6283 affected0=147119 time=133 ms
+DF communities written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/real_graphs/snap_temporal/outputs/df/sx-askubuntu_communities.txt

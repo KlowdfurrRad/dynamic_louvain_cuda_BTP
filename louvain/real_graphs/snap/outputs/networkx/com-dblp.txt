@@ -1,0 +1,7 @@
+Running com-dblp_converted.txt...
+  initial : nodes=317080 edges=1049866 Q=0.822063 communities=221 time=80.0046s
+  TOTAL Louvain time over 1 invocation(s): 80.0046s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+com-dblp_converted.txt     317080      1049866     0.822063           221    80.0046     80.0046

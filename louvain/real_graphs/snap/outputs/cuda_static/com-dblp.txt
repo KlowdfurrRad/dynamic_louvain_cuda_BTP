@@ -1,0 +1,79 @@
+-1.03567e-05 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.601708
+Louvain kernel phase completed.
+New Number of communities: 58947
+New number of edges after aggregation: 462685
+0.587155 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.197867
+Louvain kernel phase completed.
+New Number of communities: 10018
+New number of edges after aggregation: 177016
+0.757441 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.356543
+Louvain kernel phase completed.
+New Number of communities: 12
+New number of edges after aggregation: 35
+0.000828409 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000099
+Louvain kernel phase completed.
+New Number of communities: 11
+New number of edges after aggregation: 31
+0.000816087 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000000
+Louvain kernel phase completed.
+New Number of communities: 11
+New number of edges after aggregation: 31
+0.000816087 is the current modularity.
+Final number of nodes: 11 and edges: 31
+0.000816087 is the final modularity.
+Execution time: 474379 milliseconds
+Community assignments written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/Btp/louvain/real_graphs/outputs/cuda_static/com-dblp_communities.txt

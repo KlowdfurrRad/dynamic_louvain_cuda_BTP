@@ -1,0 +1,6 @@
+-0.000466196 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.

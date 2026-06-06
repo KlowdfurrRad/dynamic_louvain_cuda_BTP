@@ -1,0 +1,114 @@
+===== STATIC LOUVAIN =====
+Graph: 18771 nodes, 396100 directed edges
+-0.000165046 is the initial modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Iteration 6 of Louvain kernel completed.
+Iteration 7 of Louvain kernel completed.
+Iteration 8 of Louvain kernel completed.
+Iteration 9 of Louvain kernel completed.
+Iteration 10 of Louvain kernel completed.
+Iteration 11 of Louvain kernel completed.
+Iteration 12 of Louvain kernel completed.
+Iteration 13 of Louvain kernel completed.
+Iteration 14 of Louvain kernel completed.
+Iteration 15 of Louvain kernel completed.
+Iteration 16 of Louvain kernel completed.
+Total delta Q in this phase: 0.546136
+Louvain kernel phase completed.
+Number of communities: 2078
+Edges after combining: 31532
+0.542765 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Iteration 6 of Louvain kernel completed.
+Iteration 7 of Louvain kernel completed.
+Iteration 8 of Louvain kernel completed.
+Iteration 9 of Louvain kernel completed.
+Iteration 10 of Louvain kernel completed.
+Iteration 11 of Louvain kernel completed.
+Iteration 12 of Louvain kernel completed.
+Iteration 13 of Louvain kernel completed.
+Iteration 14 of Louvain kernel completed.
+Total delta Q in this phase: 0.108710
+Louvain kernel phase completed.
+Number of communities: 471
+Edges after combining: 4809
+0.618436 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Iteration 6 of Louvain kernel completed.
+Iteration 7 of Louvain kernel completed.
+Iteration 8 of Louvain kernel completed.
+Iteration 9 of Louvain kernel completed.
+Iteration 10 of Louvain kernel completed.
+Iteration 11 of Louvain kernel completed.
+Iteration 12 of Louvain kernel completed.
+Iteration 13 of Louvain kernel completed.
+Iteration 14 of Louvain kernel completed.
+Iteration 15 of Louvain kernel completed.
+Iteration 16 of Louvain kernel completed.
+Iteration 17 of Louvain kernel completed.
+Iteration 18 of Louvain kernel completed.
+Iteration 19 of Louvain kernel completed.
+Iteration 20 of Louvain kernel completed.
+Total delta Q in this phase: 0.133431
+Louvain kernel phase completed.
+Number of communities: 228
+Edges after combining: 500
+0.16202 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Total delta Q in this phase: 0.001690
+Louvain kernel phase completed.
+Number of communities: 221
+Edges after combining: 335
+0.419639 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Iteration 4 of Louvain kernel completed.
+Iteration 5 of Louvain kernel completed.
+Iteration 6 of Louvain kernel completed.
+Total delta Q in this phase: 0.051466
+Louvain kernel phase completed.
+Number of communities: 186
+Edges after combining: 284
+0.417745 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Total delta Q in this phase: 0.000031
+Louvain kernel phase completed.
+Number of communities: 183
+Edges after combining: 273
+0.417839 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Iteration 2 of Louvain kernel completed.
+Iteration 3 of Louvain kernel completed.
+Total delta Q in this phase: 0.041383
+Louvain kernel phase completed.
+Number of communities: 181
+Edges after combining: 264
+0.417851 is the current modularity.
+Iteration 1 of Louvain kernel completed.
+Total delta Q in this phase: 0.000000
+Louvain kernel phase completed.
+Negligible modularity improvement (0). Stopping.
+Static Louvain: final 181 communities, 264 edges
+Static execution time: 1250 ms
+Community sizes: 0:8 1:3 2:664 3:3 4:4 5:4 6:2 7:3 8:3 9:1751 10:11304 11:3 12:3 13:3 14:2 15:2 16:3 17:3 18:3 19:2 20:2 21:12 22:4 23:5 24:2 25:1938 26:3 27:4 28:2 29:2 30:851 31:3 32:2 33:4 34:3 35:5 36:3 37:3 38:2 39:2 40:2 41:3 42:4 43:3 44:5 45:8 46:5 47:3 48:18 49:3 50:2 51:3 52:4 53:3 54:4 55:2 56:3 57:3 58:2 59:7 60:4 61:3 62:2 63:7 64:12 65:3 66:4 67:2 68:2 69:2 70:3 71:2 72:2 73:2 74:4 75:3 76:3 77:3 78:3 79:3 80:3 81:3 82:5 83:5 84:3 85:3 86:2 87:5 88:4 89:4 90:2 91:3 92:9 93:2 94:3 95:2 96:5 97:5 98:2 99:4 100:2 101:3 102:2 103:2 104:3 105:2 106:4 107:4 108:2 109:3 110:3 111:2 112:2 113:2 114:4 115:4 116:3 117:2 118:2 119:2 120:2 121:2 122:2 123:2 124:10 125:2 126:3 127:6 128:3 129:3 130:4 131:4 132:2 133:4 134:5 135:3 136:5 137:4 138:2 139:2 140:2 141:3 142:5 143:2 144:2 145:11 146:6 147:10 148:5 149:3 150:5 151:7 152:10 153:1324 154:6 155:114 156:10 157:4 158:5 159:5 160:13 161:7 162:4 163:11 164:5 165:5 166:10 167:6 168:8 169:8 170:10 171:10 172:7 173:12 174:6 175:5 176:14 177:5 178:21 179:10 180:23 181:5 182:5 183:2 184:2 185:2 186:2 187:2 188:2 189:2 190:2 191:2 192:2 193:2 194:3 195:2 196:3 197:2 198:3 199:2 200:2 201:2 202:3 
+Community assignments written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/Btp/louvain/real_graphs/outputs/node_based/ca-AstroPh_communities.txt
+
+Done.

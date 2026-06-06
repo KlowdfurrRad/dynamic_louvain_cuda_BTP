@@ -1,0 +1,18 @@
+===== STATIC =====
+Static: Q=-0.158187  communities=426  passes=2  time=121 ms
+[batch 1] ND: Q=-0.200114 comms=357 time=14 ms
+[batch 1] DF: Q=-0.145265 comms=261 affected0=415 time=11 ms
+[batch 1] DS: Q=-0.193171 comms=315 affected0=1573 time=12 ms
+[batch 2] ND: Q=-0.207016 comms=295 time=13 ms
+[batch 2] DF: Q=-0.128322 comms=189 affected0=410 time=8 ms
+[batch 2] DS: Q=-0.187756 comms=238 affected0=1674 time=10 ms
+[batch 3] ND: Q=-0.209723 comms=254 time=12 ms
+[batch 3] DF: Q=-0.102847 comms=149 affected0=363 time=8 ms
+[batch 3] DS: Q=-0.189224 comms=186 affected0=1713 time=10 ms
+[batch 4] ND: Q=-0.206970 comms=205 time=12 ms
+[batch 4] DF: Q=-0.099175 comms=100 affected0=356 time=7 ms
+[batch 4] DS: Q=-0.194139 comms=133 affected0=1764 time=10 ms
+[batch 5] ND: Q=-0.207030 comms=130 time=14 ms
+[batch 5] DF: Q=-0.095059 comms=24 affected0=383 time=8 ms
+[batch 5] DS: Q=-0.194609 comms=55 affected0=1833 time=10 ms
+DF communities written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/real_graphs/snap_temporal/outputs/df/CollegeMsg_communities.txt

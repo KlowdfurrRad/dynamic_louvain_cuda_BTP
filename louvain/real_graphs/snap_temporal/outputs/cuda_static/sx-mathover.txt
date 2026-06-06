@@ -1,0 +1,201 @@
+-0.000854414 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.722222
+Louvain kernel phase completed.
+New Number of communities: 5887
+New number of edges after aggregation: 569
+0.00215058 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 1.991808
+Louvain kernel phase completed.
+New Number of communities: 5212
+New number of edges after aggregation: 110
+0.000352108 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000286
+Louvain kernel phase completed.
+New Number of communities: 5183
+New number of edges after aggregation: 108
+0.00038868 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000279
+Louvain kernel phase completed.
+New Number of communities: 5182
+New number of edges after aggregation: 107
+0.000435226 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000173
+Louvain kernel phase completed.
+New Number of communities: 5181
+New number of edges after aggregation: 105
+0.000511702 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000173
+Louvain kernel phase completed.
+New Number of communities: 5151
+New number of edges after aggregation: 104
+0.000564898 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000066
+Louvain kernel phase completed.
+New Number of communities: 5150
+New number of edges after aggregation: 103
+0.000591496 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000060
+Louvain kernel phase completed.
+New Number of communities: 5149
+New number of edges after aggregation: 102
+0.000621419 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000106
+Louvain kernel phase completed.
+New Number of communities: 5148
+New number of edges after aggregation: 101
+0.000644692 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000053
+Louvain kernel phase completed.
+New Number of communities: 5147
+New number of edges after aggregation: 100
+0.000667965 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000106
+Louvain kernel phase completed.
+New Number of communities: 5146
+New number of edges after aggregation: 99
+0.000691238 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000047
+Louvain kernel phase completed.
+New Number of communities: 5145
+New number of edges after aggregation: 98
+0.000711186 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000047
+Louvain kernel phase completed.
+New Number of communities: 5144
+New number of edges after aggregation: 97
+0.000724485 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000033
+Louvain kernel phase completed.
+New Number of communities: 5143
+New number of edges after aggregation: 96
+0.000741109 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000027
+Louvain kernel phase completed.
+New Number of communities: 5142
+New number of edges after aggregation: 95
+0.000754408 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000020
+Louvain kernel phase completed.
+New Number of communities: 5141
+New number of edges after aggregation: 94
+0.000764382 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000020
+Louvain kernel phase completed.
+New Number of communities: 5140
+New number of edges after aggregation: 93
+0.000774356 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000020
+Louvain kernel phase completed.
+New Number of communities: 5139
+New number of edges after aggregation: 92
+0.000784331 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000013
+Louvain kernel phase completed.
+New Number of communities: 5138
+New number of edges after aggregation: 91
+0.00079098 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000013
+Louvain kernel phase completed.
+New Number of communities: 5137
+New number of edges after aggregation: 90
+0.00079763 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000013
+Louvain kernel phase completed.
+New Number of communities: 5136
+New number of edges after aggregation: 89
+0.000804279 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000007
+Louvain kernel phase completed.
+New Number of communities: 5135
+New number of edges after aggregation: 88
+0.000807604 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000007
+Louvain kernel phase completed.
+New Number of communities: 5134
+New number of edges after aggregation: 87
+0.000810928 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000007
+Louvain kernel phase completed.
+New Number of communities: 5133
+New number of edges after aggregation: 86
+0.000814253 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000007
+Louvain kernel phase completed.
+New Number of communities: 5132
+New number of edges after aggregation: 85
+0.000817578 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000007
+Louvain kernel phase completed.
+New Number of communities: 5131
+New number of edges after aggregation: 84
+0.000820903 is the current modularity.
+An iteration completed in the loop of Louvain Kernel.
+Total delta Q in this phase: 0.000000
+Louvain kernel phase completed.
+New Number of communities: 5131
+New number of edges after aggregation: 84
+0.000820903 is the current modularity.
+Final number of nodes: 5131 and edges: 84
+0.000820903 is the final modularity.
+Execution time: 7727 milliseconds
+Community assignments written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/real_graphs/snap_temporal/outputs/cuda_static/sx-mathover_communities.txt

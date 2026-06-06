@@ -1,0 +1,12 @@
+Running CollegeMsg.txt...
+  initial : nodes=1899 edges=11070 Q=0.256886 communities=289 time=0.2037s
+  batch 1  : nodes=1899 edges=11624 Q=0.249949 communities=235 time=0.1943s
+  batch 2  : nodes=1899 edges=12178 Q=0.256179 communities=179 time=0.2065s
+  batch 3  : nodes=1899 edges=12732 Q=0.251037 communities=146 time=0.2182s
+  batch 4  : nodes=1899 edges=13285 Q=0.256264 communities=94 time=0.2216s
+  batch 5  : nodes=1899 edges=13838 Q=0.264183 communities=13 time=0.2218s
+  TOTAL Louvain time over 6 invocation(s): 1.2661s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+CollegeMsg.txt       1899        11070     0.256886           289     0.2037      1.2661
