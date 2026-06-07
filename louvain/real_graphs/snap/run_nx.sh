@@ -34,7 +34,7 @@ GRAPH_FILES=(
     [web-Google]="web-Google_converted.txt"
 )
 
-GRAPHS=(com-Youtube web-Google)
+GRAPHS=(ca-GrQc facebook ca-HepTh ca-HepPh ca-AstroPh email-Enron com-amazon com-dblp com-Youtube web-Google)
 
 # Create output directories
 mkdir -p "$OUT_DIR/cuda_static" "$OUT_DIR/normal" "$OUT_DIR/node_based" "$OUT_DIR/networkx"
