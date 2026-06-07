@@ -1,0 +1,7 @@
+Running web-Google_converted.txt...
+  initial : nodes=875713 edges=4322051 Q=0.977691 communities=3148 time=209.5224s
+  TOTAL Louvain time over 1 invocation(s): 209.5224s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+web-Google_converted.txt     875713      4322051     0.977691          3148   209.5224    209.5224

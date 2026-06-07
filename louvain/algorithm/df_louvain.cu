@@ -136,19 +136,26 @@ __global__ void fill_int_kernel(int N, int* a, int val) {
     if (v < N) a[v] = val;
 }
 
-// Local-moving iteration (Alg 5). One thread per vertex; asynchronous.
-//   active[v] : vertex is scheduled for processing this iteration (consumed).
-//   range[v]  : vertex is allowed to be processed at all (nullptr => all allowed).
-//   isDF      : if true, a moved vertex's neighbours are added to the range
-//               (frontier growth). For ND/DS/Static this is false.
-// On a successful move we update C and (atomically) Sigma, accumulate dQ, and
-// re-activate neighbours (vertex pruning, shared by all variants).
+// Local-moving iteration (Alg 5). One thread per vertex.
+//   active[v] : vertex scheduled for processing this iteration (consumed).
+//   range[v]  : vertex allowed to be processed at all (nullptr => all allowed).
+//   isDF      : if true, a moved vertex's neighbours are added to the range.
+//
+// Correctness (this is the fix for the sub-singleton / stale-Sigma bug): a
+// vertex picks its best target community OPTIMISTICALLY (against possibly-stale
+// Sigma), then COMMITS only under a lock on the (old,new) community pair, where
+// it re-reads Sigma and re-scans K_{v->old}/K_{v->new}. While that pair is
+// locked, no other vertex can change the membership of either community (such a
+// move would need the same locks), so the re-computed gain is EXACT and every
+// committed move genuinely increases modularity — no stale-Sigma overshoot and
+// no 2-cycle swap. C[v] is written only by v's own thread, so no per-vertex
+// lock is needed.
 __global__ void localMove_kernel(
         int N, const int* off, const int* dst, const double* w,
         int* C, const double* K, double* Sigma,
         int* active, int* range, int isDF,
         const long long* htOff, int* htKey, double* htVal,
-        double M, double* dQ_accum)
+        double M, double* dQ_accum, int* commLock)
 {
     int v = blockIdx.x * blockDim.x + threadIdx.x;
     if (v >= N) return;
@@ -181,19 +188,17 @@ __global__ void localMove_kernel(
         }
     }
 
-    // K_{v->d} (weight to own community).
+    // Optimistic K_{v->d} and best target (against possibly-stale Sigma).
     double Kid = 0.0;
     {
         int slot = (int)(hash_u(d) & mask);
         while (true) {
             int k = htKey[base + slot];
             if (k == d)  { Kid = htVal[base + slot]; break; }
-            if (k == -1) { Kid = 0.0; break; }
+            if (k == -1) break;
             slot = (slot + 1) & mask;
         }
     }
-
-    // Best community: maximise dQ over candidate communities c != d.
     double Sd = Sigma[d];
     int    best_c  = d;
     double best_dQ = 0.0;
@@ -211,12 +216,35 @@ __global__ void localMove_kernel(
             best_c  = c;
         }
     }
+    if (best_c == d || best_dQ <= MOVE_EPS) return;
 
-    if (best_c != d && best_dQ > MOVE_EPS) {
-        atomicAdd(&Sigma[d], -ki);
-        atomicAdd(&Sigma[best_c], ki);
+    // ---- verified commit under a lock on the (d, best_c) community pair ----
+    int lo = min(d, best_c), hi = max(d, best_c);
+    while (atomicCAS(&commLock[lo], 0, 1) != 0) {}
+    while (atomicCAS(&commLock[hi], 0, 1) != 0) {}
+
+    // Re-scan K_{v->d} and K_{v->best_c} with current memberships; while both
+    // communities are locked their membership is frozen, so these and the Sigma
+    // reads below are exact.
+    double Kid2 = 0.0, Kic2 = 0.0;
+    for (int e = off[v]; e < off[v + 1]; ++e) {
+        int u = dst[e];
+        if (u == v) continue;
+        int cu = C[u];
+        double we = w[e];
+        if (cu == d)           Kid2 += we;
+        else if (cu == best_c) Kic2 += we;
+    }
+    double Sd2 = Sigma[d], Sc2 = Sigma[best_c];
+    double dQ2 = 2.0 * (Kic2 - Kid2) / M
+               - 2.0 * ki * (ki + Sc2 - Sd2) / (M * M);
+
+    if (dQ2 > MOVE_EPS) {
+        Sigma[d]      -= ki;       // only the two lock holders touch these
+        Sigma[best_c] += ki;
         C[v] = best_c;
-        atomicAdd(dQ_accum, best_dQ);
+        atomicAdd(dQ_accum, dQ2);
+        __threadfence();           // publish C/Sigma before releasing the locks
         // Re-activate neighbours (and, for DF, expand the affected range).
         for (int e = off[v]; e < off[v + 1]; ++e) {
             int u = dst[e];
@@ -224,6 +252,9 @@ __global__ void localMove_kernel(
             if (isDF && range != nullptr) range[u] = 1;
         }
     }
+    __threadfence();
+    atomicExch(&commLock[hi], 0);
+    atomicExch(&commLock[lo], 0);
 }
 
 // Mark community c as "present" (used before renumbering).
@@ -448,6 +479,9 @@ static LouvainOut louvain(
     int* d_cap;     CUDA_CHECK(cudaMalloc(&d_cap,     sizeof(int) * N));
     long long* d_htOff; CUDA_CHECK(cudaMalloc(&d_htOff, sizeof(long long) * (N + 1)));
     double* d_dQ;   CUDA_CHECK(cudaMalloc(&d_dQ, sizeof(double)));
+    // Per-community lock (indexed by community id, < g.N <= N). Used to make each
+    // local-move commit verify its gain against frozen Sigma/memberships.
+    int* d_commLock; CUDA_CHECK(cudaMalloc(&d_commLock, sizeof(int) * N));
 
     // hashtable storage sized to pass-0 total capacity (later passes are smaller)
     long long htTotal = buildHashOffsets(g, d_htOff, d_cap);
@@ -467,6 +501,8 @@ static LouvainOut louvain(
         int*  range_ptr  = (firstPass ? d_range : nullptr);  // later passes: no range limit
         int   df_flag    = (firstPass && isDF) ? 1 : 0;
 
+        CUDA_CHECK(cudaMemset(d_commLock, 0, sizeof(int) * g.N));  // all locks free
+
         int iters = 0;
         for (int it = 0; it < MAX_ITERATIONS; ++it) {
             iters++;
@@ -474,7 +510,7 @@ static LouvainOut louvain(
             localMove_kernel<<<nblocks(g.N), TPB>>>(
                 g.N, g.off, g.dst, g.w, d_C, d_K, d_Sigma,
                 active_ptr, range_ptr, df_flag,
-                d_htOff, d_htKey, d_htVal, M_total, d_dQ);
+                d_htOff, d_htKey, d_htVal, M_total, d_dQ, d_commLock);
             CUDA_CHECK(cudaGetLastError());
             double hdQ = 0.0;
             CUDA_CHECK(cudaMemcpy(&hdQ, d_dQ, sizeof(double), cudaMemcpyDeviceToHost));
@@ -537,6 +573,7 @@ static LouvainOut louvain(
     cudaFree(d_K); cudaFree(d_C); cudaFree(d_Sigma); cudaFree(d_orig);
     cudaFree(d_active); cudaFree(d_range);
     cudaFree(d_present); cudaFree(d_cap); cudaFree(d_htOff); cudaFree(d_dQ);
+    cudaFree(d_commLock);
     cudaFree(d_htKey); cudaFree(d_htVal);
     return res;
 }
@@ -619,11 +656,22 @@ static void markDF(int N, const vector<int>& prevC,
     }
 }
 
-// DS (Alg 3 / Zarayeneh Alg 2,3): mark source vertices, their neighbours, and the
-// *entire* affected community. Fixed range (no frontier growth).
+// DS: mark source vertices, their neighbours, and the *entire* affected
+// community. Fixed range (no frontier growth).
 //   deletions (i,j), same community  -> mark i, neighbours of i, community C[i]
 //   insertions from i -> for the target community c* with the best modularity
 //      gain among i's inter-community insertions: mark i, neighbours of i, comm c*
+//
+// NOTE: this is the PARALLEL delta-screening of the DF Louvain paper
+// (Sahu, arXiv:2404.19634, Alg. 3), which simplifies the original sequential
+// algorithm of Zarayeneh & Kalyanaraman (IEEE TNSE 2021, Alg. 2/3) in two ways:
+//   (1) the insertion screening gain uses ONLY the newly-inserted edge weights
+//       as K_{i->c} (Kto[c] below), not i's full edge weight to community c;
+//   (2) the original's deferral check is dropped -- it marks from source i when
+//       the best screening gain is positive, without requiring that gain_{i->c*}
+//       >= gain_{c*-vertex -> C(i)} (i.e. without deferring to the endpoint with
+//       the stronger incentive). Dropping it only enlarges the affected set, so
+//       the marked set remains a safe superset of the original's.
 static void markDS(int N, const vector<int>& prevC,
                    const vector<int>& off, const vector<int>& dst,
                    const vector<double>& prevK, const vector<double>& prevSigma, double prevM,
@@ -639,8 +687,10 @@ static void markDS(int N, const vector<int>& prevC,
         if (prevC[i] == prevC[j]) { markV[i] = 1; markE[i] = 1; markC[prevC[j]] = 1; }
     }
 
-    // insertions: group by source, accumulate weight to each target community,
-    // pick the community c* with the highest delta-modularity (screening).
+    // insertions: group by source, accumulate the INSERTED weight to each target
+    // community (simplification (1) in the header), then pick the community c*
+    // with the highest screening delta-modularity and mark if it is positive --
+    // with no deferral to the opposite endpoint (simplification (2) in the header).
     // ins is sorted-by-source by the caller.
     size_t p = 0;
     while (p < ins.size()) {

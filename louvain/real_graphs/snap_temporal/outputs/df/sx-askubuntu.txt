@@ -1,18 +1,18 @@
 ===== STATIC =====
-Static: Q=0.364011  communities=43998  passes=3  time=630 ms
-[batch 1] ND: Q=0.378011 comms=36311 time=194 ms
-[batch 1] DF: Q=0.427623 comms=33778 affected0=12089 time=101 ms
-[batch 1] DS: Q=0.415851 comms=32976 affected0=115889 time=157 ms
-[batch 2] ND: Q=0.231962 comms=29712 time=175 ms
-[batch 2] DF: Q=0.428222 comms=27385 affected0=12548 time=75 ms
-[batch 2] DS: Q=0.432266 comms=25697 affected0=126734 time=141 ms
-[batch 3] ND: Q=0.397269 comms=22673 time=179 ms
-[batch 3] DF: Q=0.411426 comms=20877 affected0=12806 time=81 ms
-[batch 3] DS: Q=0.442685 comms=18949 affected0=133786 time=118 ms
-[batch 4] ND: Q=0.408231 comms=16488 time=166 ms
-[batch 4] DF: Q=0.299117 comms=14754 affected0=12609 time=72 ms
-[batch 4] DS: Q=0.375553 comms=12543 affected0=140681 time=128 ms
-[batch 5] ND: Q=0.370917 comms=10143 time=180 ms
-[batch 5] DF: Q=0.350475 comms=8508 affected0=11967 time=120 ms
-[batch 5] DS: Q=0.364586 comms=6283 affected0=147119 time=133 ms
+Static: Q=0.215364  communities=33347  passes=3  time=345 ms
+[batch 1] ND: Q=0.420627 comms=27641 time=485 ms
+[batch 1] DF: Q=0.420625 comms=27620 affected0=10573 time=478 ms
+[batch 1] DS: Q=0.421067 comms=27656 affected0=126607 time=466 ms
+[batch 2] ND: Q=0.428902 comms=21704 time=55 ms
+[batch 2] DF: Q=0.423542 comms=21720 affected0=11841 time=29 ms
+[batch 2] DS: Q=0.429146 comms=21721 affected0=133278 time=52 ms
+[batch 3] ND: Q=0.430453 comms=15573 time=35 ms
+[batch 3] DF: Q=0.425601 comms=15593 affected0=12225 time=32 ms
+[batch 3] DS: Q=0.430479 comms=15579 affected0=139305 time=48 ms
+[batch 4] ND: Q=0.430127 comms=9565 time=48 ms
+[batch 4] DF: Q=0.425767 comms=9594 affected0=12236 time=32 ms
+[batch 4] DS: Q=0.430744 comms=9587 affected0=145307 time=30 ms
+[batch 5] ND: Q=0.430385 comms=3362 time=44 ms
+[batch 5] DF: Q=0.425393 comms=3391 affected0=12659 time=33 ms
+[batch 5] DS: Q=0.430630 comms=3341 affected0=151334 time=34 ms
 DF communities written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/real_graphs/snap_temporal/outputs/df/sx-askubuntu_communities.txt

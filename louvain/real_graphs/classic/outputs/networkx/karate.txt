@@ -1,0 +1,7 @@
+Running karate_converted.txt...
+  initial : nodes=34 edges=78 Q=0.385355 communities=3 time=0.0027s
+  TOTAL Louvain time over 1 invocation(s): 0.0027s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+karate_converted.txt         34           78     0.385355             3     0.0027      0.0027

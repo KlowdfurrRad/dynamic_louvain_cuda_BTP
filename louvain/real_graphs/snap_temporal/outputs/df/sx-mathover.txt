@@ -1,18 +1,18 @@
 ===== STATIC =====
-Static: Q=0.269963  communities=6597  passes=3  time=213 ms
-[batch 1] ND: Q=0.296531 comms=5290 time=41 ms
-[batch 1] DF: Q=0.283522 comms=5297 affected0=2902 time=18 ms
-[batch 1] DS: Q=0.294672 comms=5080 affected0=19723 time=20 ms
-[batch 2] ND: Q=0.194820 comms=4185 time=26 ms
-[batch 2] DF: Q=0.285238 comms=4283 affected0=2909 time=4 ms
-[batch 2] DS: Q=0.196573 comms=3912 affected0=20996 time=20 ms
-[batch 3] ND: Q=0.279584 comms=2938 time=44 ms
-[batch 3] DF: Q=0.289212 comms=2984 affected0=3025 time=20 ms
-[batch 3] DS: Q=0.086868 comms=2623 affected0=22179 time=23 ms
-[batch 4] ND: Q=0.218666 comms=1845 time=23 ms
-[batch 4] DF: Q=0.289923 comms=1993 affected0=2986 time=4 ms
-[batch 4] DS: Q=0.232026 comms=1442 affected0=23378 time=28 ms
-[batch 5] ND: Q=0.276755 comms=659 time=38 ms
-[batch 5] DF: Q=0.291212 comms=919 affected0=3041 time=4 ms
-[batch 5] DS: Q=0.070087 comms=263 affected0=24567 time=25 ms
+Static: Q=0.269906  communities=5762  passes=3  time=225 ms
+[batch 1] ND: Q=0.306915 comms=4627 time=60 ms
+[batch 1] DF: Q=0.296387 comms=4628 affected0=2828 time=36 ms
+[batch 1] DS: Q=0.306551 comms=4631 affected0=20111 time=58 ms
+[batch 2] ND: Q=0.312318 comms=3507 time=15 ms
+[batch 2] DF: Q=0.298872 comms=3605 affected0=2896 time=8 ms
+[batch 2] DS: Q=0.312041 comms=3511 affected0=21221 time=14 ms
+[batch 3] ND: Q=0.317101 comms=2335 time=18 ms
+[batch 3] DF: Q=0.304711 comms=2339 affected0=3069 time=18 ms
+[batch 3] DS: Q=0.317043 comms=2339 affected0=22397 time=15 ms
+[batch 4] ND: Q=0.318961 comms=1327 time=10 ms
+[batch 4] DF: Q=0.306649 comms=1336 affected0=2958 time=11 ms
+[batch 4] DS: Q=0.318423 comms=1340 affected0=23489 time=9 ms
+[batch 5] ND: Q=0.321347 comms=205 time=12 ms
+[batch 5] DF: Q=0.309165 comms=241 affected0=3065 time=9 ms
+[batch 5] DS: Q=0.320529 comms=226 affected0=24617 time=8 ms
 DF communities written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/real_graphs/snap_temporal/outputs/df/sx-mathover_communities.txt

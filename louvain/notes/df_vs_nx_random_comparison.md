@@ -1,169 +1,133 @@
 # DF Louvain (GPU) vs NetworkX — Synthetic Erdős–Rényi Dynamic Graphs
 
-Comparison of the from-scratch [`df_louvain.cu`](../algorithm/df_louvain.cu)
-(Static + Naive-Dynamic / Dynamic-Frontier / Delta-Screening, all in one GPU
-process) against the NetworkX CPU baseline ([`nx_louvain.py`](../algorithm/nx_louvain.py),
-which re-runs Louvain from scratch after every batch), on the generated
-Erdős–Rényi graphs from [`generate/run_benchmarks.sh`](../generate/run_benchmarks.sh).
+Comparison of [`df_louvain.cu`](../algorithm/df_louvain.cu) (Static + ND + DF + DS)
+against the NetworkX CPU baseline ([`nx_louvain.py`](../algorithm/nx_louvain.py),
+re-running Louvain from scratch each batch) on the generated Erdős–Rényi graphs
+from [`generate/run_benchmarks.sh`](../generate/run_benchmarks.sh).
 
-Data parsed from `generate/outputs/df/*.txt` and `generate/outputs/networkx/*.txt`.
-Seed 42, 5 batches each.
+Data from `generate/outputs/{df,networkx}/`. Seed 42, 5 batches each.
+**Post-fix** (verified-commit-under-lock local move — see [bugfixes.md](bugfixes.md)).
 
-## ⚠️ Read this first — ER graphs have no community structure
+Each table reports **modularity per batch for every algorithm**. The `initial`
+row is the partition of the initial graph (df: single Static run shared by
+ND/DF/DS; NetworkX: its first run). Rows 1–5 are after each batch.
 
-These are **uniform random** graphs. There are **no planted communities**, so
-there is no "right" answer with high modularity — any positive modularity a
-Louvain optimiser reports is *spurious* (it greedily carves a structureless
-graph into blocks). This makes ER graphs a **worst case / stress test**, not a
-representative quality benchmark. The point here is *relative* behaviour and,
-more importantly, it surfaces a **correctness red flag in df_louvain** (below).
-The real quality evaluation belongs on the structured temporal SNAP graphs.
+## ⚠️ ER graphs have no community structure
 
-Per-batch updates are tiny — `batch_pct = 0.001`, i.e. del = ins per batch is
-~0.1 % of edges (1, 6, 9, 44, 249 edges respectively) — so the graph barely
-changes across batches, and NetworkX's modularity is essentially flat.
+Uniform random graphs with **no planted communities** → any positive modularity
+is *spurious*. These are a **stress test**, not a quality benchmark; the point is
+confirming the fix (no negative Q) and exposing edge cases. Batches are tiny
+(del = ins ≈ 0.1 % of edges; net edge count unchanged), so NetworkX is flat.
 
 ---
 
 ## TL;DR
 
-1. **NetworkX finds Q ≈ 0.13–0.27; df_louvain finds far less** (best variant
-   0.02–0.13), a gap of **0.05–0.14** on every graph.
-2. **df_louvain's Static and ND return Q ≤ 0 — sometimes *below the
-   all-singletons baseline*** (e.g. n100 Static Q = −0.042 when singletons give
-   ≈ −0.011). A correct Louvain can never end below its singleton start. This is
-   a genuine bug signature: the asynchronous parallel local-move net-*decreases*
-   modularity on structureless dense graphs (moves scored against stale Σ).
-3. **DF and DS recover to positive Q** by perturbing the warm-start less, but
-   still trail NetworkX badly.
-4. **Speed: df_louvain wins big on large graphs** (≈127× faster end-to-end on
-   n10000) but is **slower than NetworkX on the tiny n100** graph — its ~100 ms
-   Static phase is fixed GPU overhead, not compute.
+1. **Sub-singleton collapse is gone** — Static positive on every graph
+   (n100: 0.256, was −0.042).
+2. **Competitive on small/mid graphs** — df's **ND matches or beats NetworkX** on
+   n100/n500; the gap only grows as the graph thins out.
+3. **n10000 over-merges to 2 communities** (Q 0.093 best vs NX 0.127) — the ER
+   edge case.
+4. **Faster from n500 up** (~7–105×); slower only on the tiny n100.
 
 ---
 
-## NetworkX baseline (CPU, re-run from scratch each batch)
+## er_n100_p0.10 — modularity per batch  (100 nodes, 474 edges)
 
-| Graph (n, p) | Nodes | Edges | Q (initial) | Q (batch 5) | Comms | Init t (s) | Total t, 6 runs (s) |
-|--------------|------:|------:|------------:|------------:|------:|-----------:|--------------------:|
-| n100, 0.10  | 100 | 474 | 0.272697 | 0.263201 | 7 | 0.0069 | 0.0393 |
-| n500, 0.05  | 500 | 6,162 | 0.167718 | 0.166570 | 9–10 | 0.0933 | 0.5945 |
-| n1000, 0.02 | 1,000 | 9,925 | 0.202503 | 0.201175 | 8–11 | 0.1721 | 1.0849 |
-| n3000, 0.01 | 3,000 | 44,700 | 0.162802 | 0.166603 | 8–11 | 0.9494 | 5.6966 |
-| n10000, 0.005 | 10,000 | 250,012 | 0.126959 | 0.128463 | 6–9 | 4.8810 | 34.1672 |
+| Batch | df ND | df DF | df DS | NetworkX |
+|------:|------:|------:|------:|---------:|
+| initial / Static | 0.2558 | 0.2558 | 0.2558 | 0.2727 |
+| 1 | 0.2717 | 0.2537 | 0.2595 | 0.2738 |
+| 2 | 0.2759 | 0.2537 | 0.2628 | 0.2685 |
+| 3 | 0.2739 | 0.2516 | 0.2665 | 0.2587 |
+| 4 | 0.2756 | 0.2540 | 0.2685 | 0.2638 |
+| 5 | **0.2776** | 0.2557 | 0.2729 | 0.2632 |
 
-NetworkX modularity is flat across batches (batches are ~0.1 % of edges).
+ND ends **above** NetworkX (0.2776 vs 0.2632).
 
----
+## er_n500_p0.05 — modularity per batch  (500 nodes, 6,162 edges)
 
-## df_louvain — Static (initial graph)
+| Batch | df ND | df DF | df DS | NetworkX |
+|------:|------:|------:|------:|---------:|
+| initial / Static | 0.1503 | 0.1503 | 0.1503 | 0.1677 |
+| 1 | 0.1653 | 0.1511 | 0.1638 | 0.1658 |
+| 2 | 0.1671 | 0.1521 | 0.1654 | 0.1701 |
+| 3 | 0.1687 | 0.1525 | 0.1669 | 0.1729 |
+| 4 | 0.1706 | 0.1526 | 0.1683 | 0.1722 |
+| 5 | **0.1709** | 0.1524 | 0.1684 | 0.1666 |
 
-| Graph | Static Q | Comms | Passes | Time (ms) | singleton-Q ≈ | below singleton? |
-|-------|---------:|------:|-------:|----------:|--------------:|:----------------:|
-| n100   | **−0.042348** | 10 | 3 | 105 | −0.011 | **YES** ✗ |
-| n500   | **−0.011666** | 16 | 3 | 98 | −0.002 | **YES** ✗ |
-| n1000  | **−0.013796** | 36 | 4 | 115 | −0.001 | **YES** ✗ |
-| n3000  | −0.000339 | 138 | 4 | 147 | −0.0002 | ~at baseline |
-| n10000 | 0.003097 | 8 | 3 | 136 | −0.00004 | no (but ≈0) |
+## er_n1000_p0.02 — modularity per batch  (1,000 nodes, 9,925 edges)
 
-A from-singletons Louvain must finish with **Q ≥ Q(singletons)**. The first
-three rows finish *below* it → the parallel local-moving is destroying
-modularity, not improving it, on these dense structureless graphs.
+| Batch | df ND | df DF | df DS | NetworkX |
+|------:|------:|------:|------:|---------:|
+| initial / Static | 0.1746 | 0.1746 | 0.1746 | 0.2025 |
+| 1 | 0.1907 | 0.1751 | 0.1843 | 0.2072 |
+| 2 | 0.1922 | 0.1752 | 0.1887 | 0.2013 |
+| 3 | 0.1934 | 0.1749 | 0.1913 | 0.2029 |
+| 4 | 0.1939 | 0.1749 | 0.1925 | 0.1998 |
+| 5 | 0.1943 | 0.1748 | 0.1932 | 0.2012 |
 
----
+## er_n3000_p0.01 — modularity per batch  (3,000 nodes, 44,700 edges)
 
-## df_louvain — dynamic variants, final batch (batch 5)
+| Batch | df ND | df DF | df DS | NetworkX |
+|------:|------:|------:|------:|---------:|
+| initial / Static | 0.1245 | 0.1245 | 0.1245 | 0.1628 |
+| 1 | 0.1439 | 0.1251 | 0.1440 | 0.1624 |
+| 2 | 0.1476 | 0.1255 | 0.1473 | 0.1639 |
+| 3 | 0.1501 | 0.1262 | 0.1498 | 0.1642 |
+| 4 | 0.1518 | 0.1269 | 0.1514 | 0.1645 |
+| 5 | 0.1531 | 0.1275 | 0.1522 | 0.1666 |
 
-| Graph | ND Q (comms) | DF Q (comms) | DS Q (comms) | DF affected₀ | DS affected₀ | DF t (ms) |
-|-------|-------------:|-------------:|-------------:|-------------:|-------------:|----------:|
-| n100   | −0.0588 (8) | **0.1321** (7)  | 0.1298 (7)  | 4    | 65     | 4 |
-| n500   | −0.0128 (12)| 0.0178 (16)     | **0.1167** (6) | 12 | 459    | 1 |
-| n1000  | −0.0249 (8) | 0.0131 (36)     | **0.0869** (4) | 20 | 1,000  | 1 |
-| n3000  | −0.0246 (2) | **0.0245** (138)| 0.0009 (6)  | 85   | 2,999  | 2 |
-| n10000 | 0.0074 (4)  | **0.0477** (6)  | 0.0096 (5)  | 498  | 10,000 | 3 |
+## er_n10000_p0.005 — modularity per batch  (10,000 nodes, 250,012 edges)
 
-(affected₀ = vertices marked affected at the start of the batch.)
+| Batch | df ND | df DF | df DS | NetworkX |
+|------:|------:|------:|------:|---------:|
+| initial / Static | 0.0319 | 0.0319 | 0.0319 | 0.1270 |
+| 1 | 0.0868 | 0.0341 | 0.0865 | 0.1266 |
+| 2 | 0.0897 | 0.0361 | 0.0895 | 0.1271 |
+| 3 | 0.0914 | 0.0384 | 0.0913 | 0.1269 |
+| 4 | 0.0924 | 0.0407 | 0.0923 | 0.1297 |
+| 5 | 0.0933 | 0.0424 | 0.0932 | 0.1285 |
 
----
-
-## Quality gap — NetworkX vs best df_louvain variant
-
-| Graph | NX Q (batch 5) | Best df Q | Best variant | **Q gap** | NX comms | df comms |
-|-------|---------------:|----------:|--------------|----------:|---------:|---------:|
-| n100   | 0.2632 | 0.1321 | DF | **−0.131** | 7 | 7 |
-| n500   | 0.1666 | 0.1167 | DS | **−0.050** | 9 | 6 |
-| n1000  | 0.2012 | 0.0869 | DS | **−0.114** | 11 | 4 |
-| n3000  | 0.1666 | 0.0245 | DF | **−0.142** | 8 | 138 |
-| n10000 | 0.1285 | 0.0477 | DF | **−0.081** | 7 | 6 |
-
-df_louvain trails NetworkX by 0.05–0.14 modularity on every graph, and never
-once matches it. On n3000 the best df variant (DF) is at 0.025 vs NX 0.167.
-
----
-
-## Speed — end-to-end (Static + 5 batches)
-
-"df DF trajectory" = Static + the five DF batch times. NetworkX total = its six
-from-scratch invocations.
-
-| Graph | df total (ms) | of which Static (ms) | NX total (ms) | speedup (df vs NX) |
-|-------|--------------:|---------------------:|--------------:|-------------------:|
-| n100   | 121 | 105 | 39 | **0.3× (slower)** |
-| n500   | 103 | 98  | 595 | 5.8× |
-| n1000  | 121 | 115 | 1,085 | 9.0× |
-| n3000  | 153 | 147 | 5,697 | 37× |
-| n10000 | 270 | 136 | 34,167 | **127×** |
-
-Per-update, DF is 1–35 ms vs NetworkX's 6–7,000 ms per re-run. But df's Static
-phase is ~100 ms of largely *fixed* GPU overhead (context, allocations, kernel
-launches), which dominates on the small graphs and makes n100 a net loss.
+df over-merges here (2 communities); NetworkX keeps 6–9, hence the larger gap.
 
 ---
 
-## Critical observations
+## Before vs after the fix (Static Q)
 
-1. **The sub-singleton modularity is the headline problem.** Static/ND finishing
-   below the all-singletons baseline (n100/n500/n1000) means the parallel
-   local-move is accepting a *set* of moves that each looked positive against
-   stale Σ but are jointly negative — the classic parallel-Louvain hazard. On
-   structured graphs this is mild; on dense structureless ER graphs it is severe.
-   **Fix direction:** a synchronous two-phase move with a swap/oscillation guard,
-   or recomputing Σ between sub-rounds, or rejecting a pass whose *measured* ΔQ
-   (not the summed per-move claims) is ≤ 0.
+| Graph | Static Q before | Static Q after | NX Q |
+|-------|----------------:|---------------:|-----:|
+| n100   | **−0.042** | 0.256 | 0.273 |
+| n500   | **−0.012** | 0.150 | 0.168 |
+| n1000  | **−0.014** | 0.175 | 0.203 |
+| n3000  | −0.000 | 0.124 | 0.163 |
+| n10000 | 0.003 | 0.032 | 0.127 |
 
-2. **ND is uniformly the worst df variant** (Q ≤ 0 on 4/5 graphs). Warm-starting
-   from the already-bad Static partition and then re-moving *every* vertex just
-   re-triggers the same thrash. The restricted variants (DF/DS) do better
-   precisely because they perturb less.
+## Speed — end-to-end (Static + 5 batches, DF trajectory)
 
-3. **DF inherits Static's over-fragmentation.** Because DF only refines the local
-   frontier and never re-coarsens, its community count stays pinned at Static's
-   (e.g. n3000: 138 comms through all 5 batches). It nudges Q upward locally but
-   cannot undo a bad global partition.
-
-4. **DS's selectivity collapses on these graphs.** DS marks the *entire* affected
-   community; with few large communities, that degenerates to ~all vertices
-   (affected₀ = 10,000 / 10,000 on n10000), so DS ≈ ND in coverage but pays extra
-   screening cost. It does, oddly, win on the mid-size graphs (n500/n1000)
-   because marking everything lets it re-coarsen to few communities.
-
-5. **NetworkX's spurious modularity rises as graphs get denser/smaller** (0.27 at
-   n100 down to 0.13 at n10000) — expected Louvain overfitting on random graphs.
+| Graph | df total | NX total | speedup |
+|-------|---------:|---------:|--------:|
+| n100   | ~99 ms | 39 ms | 0.4× (slower) |
+| n500   | ~86 ms | 595 ms | ~7× |
+| n1000  | ~84 ms | 1,085 ms | ~13× |
+| n3000  | ~99 ms | 5,697 ms | ~58× |
+| n10000 | ~326 ms | 34,167 ms | **~105×** |
 
 ---
 
-## Caveats & recommended next step
+## Observations
 
-- **ER graphs are the wrong benchmark for *quality*.** With no planted
-  structure, "better modularity" mostly measures who overfits more. Do **not**
-  read these as df_louvain being 0.1 worse "in general."
-- **But the sub-singleton Q is real and graph-independent in cause** — it must be
-  fixed before any quality claim. Re-run after hardening the local-move and
-  confirm Static Q ≥ singleton Q on every graph.
-- **The meaningful comparison is the structured temporal SNAP graphs**
-  (CollegeMsg, sx-mathoverflow, …), where NetworkX itself reaches Q ≈ 0.25–0.49.
-  Run `snap_temporal/run_df.sh` + NetworkX on the same inputs and compare there;
-  that is where DF/DS are designed to shine and where the collapse fix matters.
-- **Speed is already a clear df win** on everything but the smallest graph, and
-  grows with size (127× on n10000) — so once quality is fixed, the value
-  proposition is strong.
+1. **Fix confirmed:** no negative Q anywhere; Static is a valid partition on every
+   ER graph now.
+2. **ND is the strongest df variant** (reprocesses every vertex) and edges out
+   NetworkX on n100/n500; **DF barely moves off Static** (its frontier touches few
+   vertices on a structureless graph); DS tracks ND.
+3. **n10000 over-merges to 2 communities** — inverse of the static-SNAP
+   under-coarsening; an ER-specific artifact. Structured graphs (static SNAP,
+   temporal) coarsen correctly to NetworkX-level counts.
+4. **ER modularity is spurious** — don't read the residual gaps as a general
+   deficit. The meaningful evaluations are
+   [df_vs_nx_snap_comparison.md](df_vs_nx_snap_comparison.md) (df matches NetworkX)
+   and [df_vs_nx_temporal_comparison.md](df_vs_nx_temporal_comparison.md)
+   (competitive-to-better).

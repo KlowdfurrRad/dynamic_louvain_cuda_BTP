@@ -1,0 +1,7 @@
+Running com-Youtube_converted.txt...
+  initial : nodes=1134890 edges=2987624 Q=0.716040 communities=7317 time=193.0399s
+  TOTAL Louvain time over 1 invocation(s): 193.0399s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+com-Youtube_converted.txt    1134890      2987624     0.716040          7317   193.0399    193.0399

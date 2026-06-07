@@ -15,7 +15,8 @@ GRAPHS_DIR = os.path.join(BASE_DIR, "snap", "graphs")
 
 GRAPHS = [
     "ca-GrQc", "facebook", "ca-HepTh", "ca-HepPh",
-    "ca-AstroPh", "email-Enron", "com-amazon", "com-dblp"
+    "ca-AstroPh", "email-Enron", "com-amazon", "com-dblp",
+    "com-Youtube", "web-Google"
 ]
 
 # Map graph name to converted file name
@@ -28,6 +29,8 @@ GRAPH_FILES = {
     "email-Enron": "email-Enron_converted.txt",
     "com-amazon": "com-amazon_converted.txt",
     "com-dblp": "com-dblp_converted.txt",
+    "com-Youtube": "com-Youtube_converted.txt",
+    "web-Google": "web-Google_converted.txt",
 }
 
 VARIANTS = [

@@ -1,341 +1,246 @@
-# Dynamic Louvain Algorithm — Implementation & Considerations
+# Dynamic Louvain (`df_louvain.cu`) — Implementation & Considerations
+
+Notes on the from-scratch GPU Louvain in
+[`../algorithm/df_louvain.cu`](../algorithm/df_louvain.cu). It replaces the older
+`cuda_dynamic_louvain.cu` / `cuda_dynamic_louvain_nodebased.cu`. The correctness
+history is in [bugfixes.md](bugfixes.md); the algorithms follow the DF Louvain
+paper (Sahu, arXiv:2404.19634) and the Delta-Screening paper (Zarayeneh &
+Kalyanaraman, IEEE TNSE 2021).
 
 ## 1. Overview
 
-The file `cuda_dynamic_louvain.cu` implements four GPU-accelerated variants of the Louvain community detection algorithm:
+A single process computes **Static**, **Naive-Dynamic (ND)**, **Dynamic-Frontier
+(DF)**, and **Delta-Screening (DS)** Louvain. All four are produced by *one*
+shared driver, `louvain()`, which differs only in (a) the warm-start community it
+is given and (b) the initial *affected* mask:
 
-| Variant | Entry Point | Description |
-|---------|-------------|-------------|
-| **Static** | `louvain_static_cuda()` | Standard Louvain from scratch (all vertices start in their own community) |
-| **Naive Dynamic** | `louvain_dynamic_naive_cuda()` | Warm-started from previous communities; processes *all* vertices |
-| **Frontier Dynamic** | `louvain_dynamic_frontier_cuda()` | Warm-started; processes only *affected* vertices in the first pass |
-| **Delta-Screening Dynamic** | `louvain_dynamic_delta_screening_cuda()` | Warm-started; screens insertions for positive modularity gain before marking affected |
+| Variant | Warm start | Affected (pass-0) mask | Frontier growth |
+|---------|-----------|------------------------|-----------------|
+| Static | identity (each vertex its own community) | all vertices | n/a |
+| ND     | previous communities $C^{t-1}$ | all vertices | n/a |
+| DF     | $C^{t-1}$ | endpoints of intra-community deletions / inter-community insertions | yes (grows during local moving) |
+| DS     | $C^{t-1}$ | source + neighbours + whole affected communities | no (fixed range) |
 
-All four share the same core multi-pass loop (`run_louvain_phases`) consisting of alternating **local-moving** and **graph aggregation** phases.
-
----
-
-## 2. Algorithm Design
-
-### 2.1 Static Louvain (Baseline)
-
-The standard Louvain method proceeds in two alternating steps:
-
-1. **Local Moving** — Each vertex is considered for moving to a neighboring community. A move is accepted if it increases modularity ($\Delta Q > 0$). Iterations continue until no vertex moves.
-2. **Aggregation** — Communities are collapsed into super-nodes, producing a smaller graph. Edges between communities become edges between super-nodes, with weights summed.
-
-These two steps repeat until the graph can no longer be reduced (i.e., the number of communities equals the number of super-nodes).
-
-**Modularity gain** for moving vertex $i$ from community $A$ to community $B$:
-
-$$
-\Delta Q = \frac{2(k_{i \to B} - k_{i \to A})}{m} + \frac{2 k_i (\Sigma_A - \Sigma_B - k_i)}{m^2}
-$$
-
-where:
-- $k_{i \to C}$ = sum of edge weights from $i$ to vertices in community $C$
-- $k_i$ = total degree (edge weight sum) of vertex $i$
-- $\Sigma_C$ = total degree of all vertices in community $C$
-- $m$ = total edge weight of the graph
-
-### 2.2 Naive Dynamic Louvain
-
-When the graph changes (edges added/removed), re-running static Louvain from scratch is wasteful if only a small portion of the graph is affected.
-
-**Naive Dynamic** addresses this by:
-- **Warm-starting** community assignments from the previous run rather than initializing each vertex in its own community.
-- Recomputing `community_degree` (i.e., $\Sigma_C$) based on the *new* graph topology combined with the *old* community labels.
-- Running the full local-moving + aggregation loop on all vertices.
-
-This converges faster because the starting partition is already close to optimal — most vertices do not need to move.
-
-### 2.3 Frontier Dynamic Louvain
-
-**Frontier Dynamic** goes further by identifying which vertices are actually *affected* by the batch update and restricting processing to those vertices:
-
-**Affected vertex identification** (`mark_affected_frontier` kernel):
-- **Deleted edges**: If both endpoints were in the *same* community, they are marked affected (removing an intra-community edge may weaken the community).
-- **Inserted edges**: If endpoints are in *different* communities, they are marked affected (a new inter-community edge may pull vertices to a different community).
-
-**Frontier propagation** (inside `louvain_kernel`):
-- When a vertex moves to a new community, all its neighbors are marked as affected, ensuring the change can propagate outward.
-
-**Scope**: The affected-vertex filter is only applied in the **first pass** (on the original graph). Subsequent passes on the aggregated graph process all super-nodes, since the aggregated graph is already much smaller.
-
-### 2.4 Delta-Screening Dynamic Louvain
-
-**Delta-Screening** is the most selective of the three dynamic approaches. While Frontier marks *all* vertices with inter-community insertions as affected, Delta-Screening applies a modularity-based screening test to decide whether each vertex truly needs re-evaluation.
-
-**Affected vertex identification** (`compute_affected_delta_screening` host function):
-
-**Phase 1 — Deletions** (same as Frontier):
-- If both endpoints of a deleted edge were in the same community, mark them as affected.
-- Additionally mark the community itself as affected.
-
-**Phase 2 — Insertions** (the key difference from Frontier):
-- Group all inserted edges by their source vertex $u$.
-- For each source vertex $u$ with inter-community insertions, compute the total weight of newly inserted edges to each target community $c$:
-  $$w_{u \to c} = \sum_{(u,v,w) \in \text{insertions},\; \text{comm}(v)=c} w$$
-- Compute the delta modularity for moving $u$ from its current community $d$ to the best target community $c$, using **only the newly inserted edge weights**:
-  $$\Delta Q_{\text{screen}} = \frac{w_{u \to c}}{m} - \frac{k_u (k_u + \Sigma_c - \Sigma_d)}{2m^2}$$
-- Only mark $u$ as affected if $\Delta Q_{\text{screen}} > 0$ for at least one target community.
-
-**Phase 3 — Propagation:**
-- All neighbors of directly-marked vertices are marked affected.
-- All vertices belonging to a marked community are marked affected.
-
-**Why this is more selective**: Consider a vertex $u$ that receives a new edge to a vertex in another community. Frontier would always mark $u$ as affected. Delta-Screening first checks: given $u$'s degree and the community weights, does this new edge actually provide enough "pull" to justify re-evaluation? If the new edge weight is small relative to $u$'s total degree and the target community is already large, the screening test will be negative and $u$ will be skipped.
-
-**Trade-off**: Delta-Screening requires more computation upfront (host-side per-vertex modularity calculation) but reduces the number of vertices processed by the GPU kernel, leading to faster convergence for small batches.
+Everything is one `.cu` file with a single `louvain()` and one `localMove_kernel`;
+there are no separate per-variant entry points and no node-based vs edge-based split.
 
 ---
 
-## 3. Data Structures
+## 2. Algorithm
 
-### 3.1 Graph Representation — CSR
+### 2.1 Modularity and the move gain
 
-The graph is stored in **Compressed Sparse Row** format:
+With each undirected edge stored as two directed arcs, let $M$ = total directed
+weight ($=2m$), $K_i$ = weighted degree of $i$, $\Sigma_c$ = total weighted degree
+of community $c$ (which includes $i$ when $i\in c$), and $K_{i\to c}$ = weight of
+arcs from $i$ into community $c$ (self-loops excluded). The modularity computed on
+the host for reporting is
 
-| Array | Type | Description |
-|-------|------|-------------|
-| `d_csr_adj` | `Edge[]` | Sorted edge list; each entry has `src`, `dest`, `weight` |
-| `d_csr_node_offset` | `int[]` | Offset into `d_csr_adj` for each vertex's adjacency list; size $n+1$ |
+$$Q = \sum_c\!\left[\frac{\sigma_c}{M} - \left(\frac{\Sigma_c}{M}\right)^{\!2}\right],$$
 
-Edges are stored as directed (each undirected edge produces two directed entries). During aggregation, duplicate edges are combined using Thrust's `reduce_by_key`.
+and the gain of moving $i$ from its community $d$ to $c$, used by the kernel, is
 
-### 3.2 LouvainState
+$$\Delta Q_{i:d\to c} = \frac{2\,(K_{i\to c} - K_{i\to d})}{M}
+ - \frac{2\,K_i\,(K_i + \Sigma_c - \Sigma_d)}{M^2}.$$
 
-A persistent state object returned after each run, enabling warm-starting:
+(This is the standard combined remove-then-add gain; $\Sigma_d$ includes $i$.)
+
+### 2.2 The two phases
+
+`louvain()` alternates a **local-moving** phase (move each vertex to the
+neighbouring community of highest $\Delta Q$) and an **aggregation** phase
+(collapse each community into a super-vertex), warm-starting from $C^{t-1}$ for the
+dynamic variants. Passes repeat until convergence or a low-shrink/​pass cap.
+
+### 2.3 Affected-vertex marking (host functions)
+
+- **`markND`** — every vertex affected and in range.
+- **`markDF`** (DF, initial set) — for an intra-community deletion $(i,j)$ or an
+  inter-community insertion $(i,j)$, mark $i$ and $j$. The set then **grows on the
+  GPU**: whenever a vertex moves, its neighbours are added to the range.
+- **`markDS`** (DS) — deletions: mark $i$, its neighbours, and all of $C^{t-1}_i$.
+  Insertions: per source $i$, screen the inserted edges and mark $i$, its
+  neighbours, and the best target community $c^\ast$. Propagate to neighbours and
+  whole communities. The range is **fixed** (no frontier growth).
+  - This is the **parallel** adaptation of DS (DF-paper Alg. 3): the screening
+    gain uses only the *newly inserted* edge weights as $K_{i\to c}$, and the
+    original's `gain1 ≥ gain2` deferral is dropped (it over-marks → safe superset).
+
+Only the **first pass** uses the affected mask; later passes (on the much smaller
+aggregated graph) process every super-vertex.
+
+---
+
+## 3. Data structures
+
+CSR is stored as **structure-of-arrays** (better coalescing than the old `Edge`
+AoS):
 
 ```cpp
-struct LouvainState {
-    int n_nodes;                       // original vertex count
-    vector<int> community;             // community[v] for each original vertex
-    vector<double> vertex_weight;      // sum of edge weights incident to v
-    vector<double> community_weight;   // sum of vertex_weight for all vertices in each community
-    double total_weight;               // sum of all directed edge weights
-};
+struct DGraph { int N, M; int* off; int* dst; double* w; };   // off[N+1], dst[M], w[M]
 ```
 
-### 3.3 Community Tracking Through Aggregation
+Per-graph device state in `louvain()`:
 
-A device array `d_original_community[v]` tracks the mapping from original vertices to final communities across multiple aggregation phases. Before each aggregation step resets `d_community` to the identity, `update_original_communities` composes the current mapping:
+| Array | Meaning |
+|-------|---------|
+| `d_C[v]` | community of current (super-)vertex `v` |
+| `d_K[v]` | weighted degree $K_v$, recomputed from CSR each graph (`computeK_kernel`) |
+| `d_Sigma[c]` | community total degree $\Sigma_c$, maintained with atomics during moves |
+| `d_orig[v]` | dendrogram: the current super-vertex that original vertex `v` lives in |
+| `d_active[v]` / `d_range[v]` | scheduled-this-iteration / allowed-to-process masks |
+| `d_commLock[c]` | per-community spin-lock for the verified commit (Section 4.2) |
+| `d_htOff`, `d_htKey`, `d_htVal` | per-vertex open-addressing hashtable (Section 4.1) |
 
-```
-d_original_community[v] = renumber(d_community[d_original_community[v]])
-```
-
-This avoids losing the original-vertex-to-community mapping when the graph is collapsed.
+`d_orig` replaces the old `LouvainState`/`d_original_community`: after each pass it
+is folded through the renumbered communities (`fold_kernel`) so the
+original-vertex → final-community map survives aggregation.
 
 ---
 
-## 4. GPU Implementation Details
+## 4. Local-moving phase (`localMove_kernel`)
 
-### 4.1 Cooperative Groups for Grid-Wide Synchronization
+**Vertex-parallel** — one thread per vertex (not edge-parallel/warp-leader as
+before), and **one kernel launch per iteration** (no cooperative kernels /
+`grid.sync`). The host loops iterations, reading back the per-iteration $\Delta Q$
+to test convergence against the tolerance $\tau$.
 
-The Louvain kernel requires all threads to synchronize between iterations (to check whether any vertex moved). Standard `__syncthreads()` only synchronizes within a block. We use **CUDA Cooperative Groups** (`cg::grid_group`) for grid-wide barriers:
+### 4.1 Per-vertex hashtable
 
-```cpp
-cg::grid_group grid = cg::this_grid();
-grid.sync();  // all threads across all blocks synchronize here
-```
+To pick the best community in $O(\deg)$, each vertex owns a slice of a global
+open-addressing hashtable (`community → accumulated weight`), sized to
+`nextPow2(deg+1)` so hubs never overflow and linear probing always terminates.
+Offsets are built per pass (`htCap_kernel` + exclusive scan). The thread scans its
+neighbours into the table, reads $K_{i\to d}$, then scans the table for the
+community maximising $\Delta Q$.
 
-This requires:
-- Compile flag: `-rdc=true`
-- Launch via: `cudaLaunchCooperativeKernel()`
-- Compute capability $\geq$ 6.0
+### 4.2 Verified commit under a community-pair lock (the correctness fix)
 
-### 4.2 Warp-Level Thread Assignment
+The original lock-free design committed moves scored against a **stale** `Σ`,
+which on dense graphs drove modularity *below* the all-singletons baseline (see
+[bugfixes.md](bugfixes.md)). The current kernel instead:
 
-Only one thread per warp (the warp leader: `threadIdx.x % 32 == 0`) participates in the Louvain computation. This simplifies locking and avoids intra-warp divergence issues, though it trades off occupancy.
+1. picks `best_c` **optimistically** (possibly-stale `Σ`); if no positive gain, return;
+2. locks the pair `(d, best_c)` with `atomicCAS` in `min,max` order;
+3. **re-reads** `Σ[d]`, `Σ[best_c]` and **re-scans** $K_{i\to d}$, $K_{i\to best\_c}$
+   — while both communities are locked their membership is frozen, so these are
+   exact;
+4. commits `C[v]=best_c`, `Σ[d]-=K_v`, `Σ[best_c]+=K_v` only if the exact
+   `dQ2 > MOVE_EPS`; `__threadfence()`; releases the locks.
 
-### 4.3 Lock-Based Concurrency
+`C[v]` is written only by `v`'s own thread, so no per-vertex lock is needed.
+**Guarantee:** every committed move increases Q, so Q is monotonically
+non-decreasing across the phase — sub-singleton results are impossible, and 2-cycle
+swaps cannot oscillate (the loser re-evaluates and sees `dQ2 ≤ 0`). No deadlock:
+ordered locks + Ampere (sm_86) Independent Thread Scheduling let a lock holder
+progress while same-warp threads spin.
 
-Since multiple threads may try to move vertices simultaneously, two levels of locking are used:
+### 4.3 Vertex pruning and frontier
 
-| Lock | Purpose |
-|------|---------|
-| `d_vertex_locks[v]` | Protects reads of vertex `v`'s community assignment |
-| `d_community_locks[c]` | Protects updates to `community_degree[c]` |
-
-**Deadlock prevention**: Locks are always acquired in **sorted order** (lower index first):
-
-```cpp
-int first = min(node_a, node_b);
-int second = max(node_a, node_b);
-while (atomicCAS(&lock[first], 0, 1) != 0) {}
-while (atomicCAS(&lock[second], 0, 1) != 0) {}
-// ... critical section ...
-atomicExch(&lock[second], 0);
-atomicExch(&lock[first], 0);
-```
-
-A `__threadfence()` is issued after modifying `community_degree` to ensure writes are visible across SMs before releasing locks.
-
-### 4.4 Edge-Parallel Work Distribution
-
-Work is distributed across threads by assigning each thread a contiguous range of edges (not vertices). This provides better load balancing for graphs with skewed degree distributions:
-
-```cpp
-long long start = ((long long)tid * m_edges) / nthreads;
-long long end   = ((long long)(tid + 1) * m_edges) / nthreads;
-```
-
-The `long long` cast prevents integer overflow when `tid * m_edges` exceeds $2^{31}$.
-
-### 4.5 Graph Aggregation on GPU
-
-After local moving converges, the graph is aggregated:
-
-1. **Renumber communities** — `count_communities` + inclusive prefix scan assigns contiguous IDs.
-2. **Remap edges** — `aggregate_graph` kernel rewrites `src`/`dest` in `d_csr_adj` to super-node IDs and resets `d_community` to identity.
-3. **Combine duplicate edges** — `combine_edges()` uses Thrust `sort` + `reduce_by_key` to merge edges between the same pair of super-nodes, summing their weights.
-4. **Rebuild CSR offsets** — `rebuild_csr_offsets()` uses atomic counting + exclusive scan.
-
-### 4.6 Affected Vertex Marking (Frontier)
-
-The `mark_affected_frontier` kernel runs once before the first Louvain pass:
-
-```
-Deletions:  if community[u] == community[v]  →  affected[u] = affected[v] = 1
-Insertions: if community[u] != community[v]  →  affected[u] = affected[v] = 1
-```
-
-During local moving, when a vertex moves:
-```
-for each neighbor j of moved_vertex:
-    affected[j] = 1
-```
-
-This propagates the frontier outward from the initial affected set, allowing cascading community restructuring.
-
-### 4.7 Affected Vertex Marking (Delta-Screening)
-
-Unlike the Frontier approach which runs entirely on the GPU, Delta-Screening computes the affected set on the **host** via `compute_affected_delta_screening()`, then uploads the result to device memory. This is because the screening computation requires per-vertex iteration over grouped insertions with per-community weight accumulation — a pattern that maps more naturally to sequential/CPU processing given the typically small batch sizes.
-
-The host function performs three phases:
-
-1. **Deletion scan** — Mark vertices at endpoints of deleted intra-community edges; flag their community.
-2. **Insertion screening** — Sort insertions by source vertex. For each source $u$, accumulate inserted edge weights per target community using a `std::map`. Evaluate $\Delta Q$ for each candidate community. Only mark $u$ if the best $\Delta Q > 0$.
-3. **Propagation** — Expand the affected set to neighbors and community members.
-
-The precomputed `h_affected` array is uploaded to `d_affected` via `cudaMemcpy` before launching the Louvain kernel.
+On a successful move the moved vertex's neighbours are re-activated (`active=1`);
+for **DF** they are also added to the range (`range=1`), which is how the frontier
+grows. A vertex is processed once per iteration and pruned until a neighbour
+re-activates it.
 
 ---
 
-## 5. Batch Update Pipeline
+## 5. Aggregation (`aggregate`, Thrust)
 
-The `main()` function orchestrates the full pipeline:
-
-```
-1. Read initial graph → build adjacency list
-2. Run static Louvain → get LouvainState
-3. For each batch:
-   a. Read deletions and insertions
-   b. Apply updates to host adjacency list (apply_batch_updates)
-   c. Run naive dynamic Louvain → LouvainState
-   d. Run frontier dynamic Louvain → LouvainState
-   e. Run delta-screening dynamic Louvain → LouvainState
-   f. Print modularity + timing comparison of all four approaches
-   g. Use delta-screening result as starting state for next batch
-```
-
-Edge updates are applied on the host via `apply_batch_updates()`, which modifies the adjacency list in-place. The CSR is rebuilt from scratch for each run since the topology change may affect all offsets.
+1. Relabel every arc to `(C[src], C[dst])` and form a 64-bit key `src*nc + dst`.
+2. `thrust::sort_by_key` + `thrust::reduce_by_key` combine duplicate super-arcs,
+   summing weights (intra-community arcs become self-loops carrying $\sigma_c$).
+3. Decode keys back to `(src,dst)`, count per-source with atomics, exclusive-scan
+   to offsets.
+4. New $K$ = super-vertex degrees (`computeK_kernel`); new $\Sigma = K$; new $C$ =
+   identity. Self-loops are **kept** — they carry the internal weight needed for
+   correct degrees and modularity, so $Q$ is preserved across aggregation.
 
 ---
 
-## 6. Design Considerations & Trade-offs
+## 6. Pass control (constants at the top of the file)
 
-### 6.1 Correctness vs. Performance
+| Constant | Role | Default |
+|----------|------|---------|
+| `TOLERANCE` | initial per-iteration $\Delta Q$ tolerance $\tau$ | `1e-2` |
+| `TOLERANCE_DROP` | $\tau$ shrinks by this each pass | `10` |
+| `AGG_TOLERANCE` | stop if a pass shrinks the community count by `< (1-this)` | `0.8`* |
+| `MAX_ITERATIONS` | local-moving iterations per pass | `20` |
+| `MAX_PASSES` | aggregation passes | `10`* |
+| `MOVE_EPS` | accept a move only if $\Delta Q$ exceeds this | `1e-12` |
 
-| Decision | Trade-off |
-|----------|-----------|
-| **AtomicCAS locking** | Guarantees correctness for concurrent moves but introduces serialization. Spin-waiting can waste cycles. |
-| **Warp-leader-only execution** | Simplifies locking (no intra-warp conflicts) but uses only 1/32 of available threads. |
-| **Grid-wide sync via cooperative groups** | Enables iterative convergence in a single kernel launch but limits the number of blocks to hardware occupancy. |
-| **Edge-parallel distribution** | Better load balance than vertex-parallel for power-law graphs, but a vertex's edges may span multiple threads, requiring locks. |
-
-### 6.2 Memory Management
-
-- All device memory is allocated per-run and freed afterward. This avoids persistent memory leaks but introduces allocation overhead per batch.
-- The `d_csr_adj` pointer is passed **by reference** (`struct Edge*& d_csr_adj`) to `run_louvain_phases` because `combine_edges()` frees and reallocates the array. Passing by value would cause a double-free.
-- Host arrays (`h_csr_adj`, etc.) are allocated with `new[]` and freed with `delete[]`. Using RAII wrappers or `std::vector` would be safer.
-
-### 6.3 Affected-Vertex Scope
-
-Both the Frontier and Delta-Screening approaches only apply the affected filter in the **first pass**. Rationale:
-- After aggregation, the graph is much smaller, so processing all super-nodes is cheap.
-- The community structure of the aggregated graph may differ substantially from the original, making the original affected set meaningless.
-
-### 6.4 Delta-Screening: Host vs. Device
-
-The delta-screening computation runs on the host rather than the GPU. This is a deliberate trade-off:
-- **Batch sizes are typically small** (tens to hundreds of edges), so the overhead of GPU kernel launch and synchronization would outweigh the parallelism benefit.
-- **Per-vertex grouping** of insertions with per-community accumulation is naturally sequential and would require complex atomic operations on the GPU.
-- **The LouvainState** (community weights, vertex weights) is already stored on the host, avoiding extra device-to-host transfers.
-
-For very large batches (millions of edges), a GPU-based delta-screening implementation could be beneficial.
-
-### 6.4 Modularity Computation
-
-Modularity is computed **on the host** for verification purposes. It is not used to drive algorithmic decisions on the GPU. The GPU kernel uses the modularity *change* formula ($\Delta Q$) to decide vertex moves.
-
-### 6.5 Convergence Control
-
-- Local moving terminates when no vertex moves in an iteration (tracked via `volatile int changed`).
-- A hard cap of **100 iterations** per pass prevents infinite loops in pathological cases.
-- The outer loop terminates when aggregation produces no reduction in vertex count.
-
-### 6.6 Numerical Precision
-
-- All weights and modularity values use `double` precision.
-- The threshold for accepting a move is $\Delta Q > 10^{-12}$, avoiding moves driven purely by floating-point noise.
-- `atomicAdd` for `double` requires compute capability $\geq$ 6.0.
+\* `AGG_TOLERANCE`/`MAX_PASSES` are the main tuning knobs for coarsening depth (the
+DF paper suggests `AGG_TOLERANCE`→1 to disable the low-shrink break on real-world
+graphs). A pass loop ends on: local-move converged in ≤1 iteration, low shrink, or
+`nc == g.N`.
 
 ---
 
-## 7. Known Limitations
-
-1. **Fixed grid dimensions**: The cooperative kernel is launched with 32 blocks × 512 threads. For large graphs, occupancy-based calculation should be used to maximize parallelism.
-2. **No self-loop handling**: Self-loops in the aggregated graph are not explicitly removed, which can affect the modularity computation.
-3. **Host-side CSR rebuild**: The CSR is fully reconstructed from the adjacency list for each dynamic run. Incremental CSR updates could reduce overhead for small batches.
-4. **No vertex addition/removal**: The dynamic algorithm assumes the vertex set is fixed; only edge insertions and deletions are supported.
-5. **Single GPU**: No multi-GPU or distributed support.
-6. **Determinism**: Due to concurrent atomic operations, results may differ across runs. Deterministic ordering of vertex processing would require sorting or sequential execution.
-
----
-
-## 8. Relationship to Reference Implementation
-
-This CUDA implementation draws algorithmic inspiration from the OpenMP-based dynamic Louvain community detection framework (see `louvain-communities-openmp-dynamic/`). Key differences:
-
-| Aspect | OpenMP Reference | CUDA Implementation |
-|--------|------------------|---------------------|
-| Parallelism model | Thread-parallel (OpenMP pragmas) | Warp-parallel (CUDA cooperative groups) |
-| Synchronization | OpenMP barriers | `cg::grid_group::sync()` + atomicCAS locks |
-| Dynamic approaches | Naive, Delta-Screening, Frontier | Naive, Frontier, Delta-Screening |
-| Delta-Screening execution | Full OpenMP parallel (with per-thread buffers) | Host-side sequential (batch sizes typically small) |
-| Graph storage | CSR with separate weight arrays | CSR with `Edge` structs (src, dest, weight) |
-| Aggregation | CPU-side | GPU-side (Thrust sort + reduce_by_key) |
-
----
-
-## 9. File Dependencies
+## 7. Batch pipeline (`main`)
 
 ```
-cuda_dynamic_louvain.cu
-├── CUDA Runtime (cuda_runtime.h)
-├── Thrust (thrust/sort.h, thrust/reduce_by_key, thrust/scan, ...)
-├── Cooperative Groups (cooperative_groups.h)
-└── C++ STL (vector, map, tuple, chrono, algorithm)
+read initial graph → build host adjacency (each undirected edge once)
+Static  = louvain(identity, all-affected)              → report Q / comms / time
+keep three independent running states: sND, sDF, sDS   (each = community + K + Σ)
+for each batch:
+    apply deletions/insertions to host adjacency; rebuild CSR; recompute K, Σ
+    ND : markND;  louvain(sND.comm, all)         → report; sND ← result
+    DF : markDF;  louvain(sDF.comm, frontier)    → report; sDF ← result
+    DS : markDS;  louvain(sDS.comm, fixed range) → report; sDS ← result
+write DF final communities to argv[1]
 ```
 
-Compile command:
+Each method carries its **own** state across batches (so DF batch *t* warm-starts
+from DF batch *t-1*), which is the correct way to benchmark the variants against
+each other. Modularity, community count, affected-set size, and time are printed
+per method per batch.
+
+I/O is unchanged from the old format: `n m`, then `m` undirected `u v` edges, then
+`n_batches`, then per batch `n_del n_ins` followed by the deletion and insertion
+`u v` lines. Edge weights are read as `u v` and treated as 1.
+
+---
+
+## 8. Numerical & correctness notes
+
+- Weights, $K$, $\Sigma$, $Q$, and the $\Delta Q$ accumulator are all `double`
+  (`atomicAdd(double)` needs sm ≥ 6.0).
+- Modularity is computed on the **host** only for reporting; the GPU uses $\Delta Q$.
+- The move threshold `MOVE_EPS = 1e-12` rejects float-noise moves.
+
+---
+
+## 9. Known residual issues (post-fix)
+
+The sub-singleton collapse and the static under-coarsening are **fixed**; static
+SNAP graphs now match NetworkX (see the `df_vs_nx_*` comparison notes). Remaining,
+secondary:
+
+1. **Large temporal-initial Static under-coarsens** (sx-askubuntu/superuser stop at
+   ~3 passes); the dynamic variants recover it — a pass-stop tuning matter
+   (`AGG_TOLERANCE`).
+2. **ER n10000 over-merges** to 2 communities (structureless-graph edge case).
+3. **sx-superuser batch-5 ND** collapses on one batch (variant instability; DF/DS
+   are steadier there).
+4. **Fixed-size launches** (`TPB=256`, `<<<256,256>>>` for helpers); no
+   occupancy-tuned grid.
+5. **Host CSR rebuild per batch** (no incremental graph/​auxiliary maintenance),
+   so the per-batch cost is dominated by the rebuild rather than the (small)
+   affected region — the DF paper's incremental $K/\Sigma$ maintenance is not
+   implemented.
+6. **GPU memory** scales with the per-vertex hashtable (~$2(M+N)$ entries) plus
+   Thrust sort scratch; multi-million-edge graphs can be tight on small cards.
+
+---
+
+## 10. Build
+
 ```bash
-nvcc -rdc=true -arch=sm_60 cuda_dynamic_louvain.cu -o dynamic_louvain
+cd algorithm
+nvcc -O3 -arch=sm_86 df_louvain.cu -o df_louvain     # sm_86 = Ampere (RTX 30xx)
 ```
 
-Minimum requirements:
-- CUDA Toolkit with `nvcc`
-- GPU with compute capability $\geq$ 6.0
-- `-rdc=true` for cooperative kernel support
+`-arch=sm_86` matters: the verified-commit spin-lock relies on Volta+ Independent
+Thread Scheduling for intra-warp forward progress. Requires the CUDA Toolkit, a GPU
+with compute capability ≥ 6.0 (≥ 7.0 recommended for the locks), Thrust (bundled
+with CUDA), and a C++ STL. No cooperative-groups / `-rdc=true` requirement
+(launch-per-iteration replaced the cooperative kernels).

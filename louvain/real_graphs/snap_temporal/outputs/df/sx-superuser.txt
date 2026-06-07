@@ -1,18 +1,18 @@
 ===== STATIC =====
-Static: Q=0.119326  communities=52358  passes=3  time=831 ms
-[batch 1] ND: Q=0.371936 comms=41892 time=255 ms
-[batch 1] DF: Q=0.377525 comms=40115 affected0=17217 time=133 ms
-[batch 1] DS: Q=0.375505 comms=40320 affected0=148337 time=212 ms
-[batch 2] ND: Q=0.257086 comms=33110 time=260 ms
-[batch 2] DF: Q=0.325827 comms=31582 affected0=18754 time=76 ms
-[batch 2] DS: Q=0.322076 comms=31376 affected0=158843 time=87 ms
-[batch 3] ND: Q=0.365826 comms=24381 time=279 ms
-[batch 3] DF: Q=0.352494 comms=22839 affected0=18940 time=93 ms
-[batch 3] DS: Q=0.386515 comms=22381 affected0=168344 time=123 ms
-[batch 4] ND: Q=0.172831 comms=15708 time=285 ms
-[batch 4] DF: Q=0.336327 comms=13991 affected0=19819 time=108 ms
-[batch 4] DS: Q=0.390791 comms=13386 affected0=177730 time=96 ms
-[batch 5] ND: Q=0.372150 comms=5427 time=309 ms
-[batch 5] DF: Q=0.349954 comms=5295 affected0=18870 time=83 ms
-[batch 5] DS: Q=0.238083 comms=4357 affected0=186117 time=127 ms
+Static: Q=0.328421  communities=46447  passes=3  time=569 ms
+[batch 1] ND: Q=0.392524 comms=37660 time=437 ms
+[batch 1] DF: Q=0.395219 comms=37707 affected0=18317 time=406 ms
+[batch 1] DS: Q=0.391349 comms=37664 affected0=153531 time=434 ms
+[batch 2] ND: Q=0.400574 comms=29184 time=72 ms
+[batch 2] DF: Q=0.397796 comms=29198 affected0=18199 time=58 ms
+[batch 2] DS: Q=0.399979 comms=29187 affected0=161686 time=80 ms
+[batch 3] ND: Q=0.403368 comms=20089 time=60 ms
+[batch 3] DF: Q=0.399150 comms=20174 affected0=18602 time=57 ms
+[batch 3] DS: Q=0.296452 comms=20160 affected0=170576 time=58 ms
+[batch 4] ND: Q=0.404129 comms=11114 time=50 ms
+[batch 4] DF: Q=0.399412 comms=11417 affected0=19330 time=53 ms
+[batch 4] DS: Q=0.326572 comms=11355 affected0=179551 time=649 ms
+[batch 5] ND: Q=0.233012 comms=1943 time=90 ms
+[batch 5] DF: Q=0.324474 comms=2582 affected0=18827 time=58 ms
+[batch 5] DS: Q=0.369681 comms=2322 affected0=187589 time=614 ms
 DF communities written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/real_graphs/snap_temporal/outputs/df/sx-superuser_communities.txt

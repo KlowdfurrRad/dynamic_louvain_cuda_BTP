@@ -1,0 +1,7 @@
+Running dolphins_converted.txt...
+  initial : nodes=62 edges=159 Q=0.518828 communities=5 time=0.0030s
+  TOTAL Louvain time over 1 invocation(s): 0.0030s
+
+Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
+---------------------------------------------------------------------------------------
+dolphins_converted.txt         62          159     0.518828             5     0.0030      0.0030
