@@ -39,18 +39,6 @@ GRAPHS=(com-Youtube web-Google)
 # Create output directories
 mkdir -p "$OUT_DIR/cuda_static" "$OUT_DIR/normal" "$OUT_DIR/node_based" "$OUT_DIR/networkx"
 
-# Check executables exist
-for exe in "$STATIC" "$DYNAMIC" "$NODEBASED"; do
-    if [ ! -f "$exe" ]; then
-        echo "ERROR: $exe not found. Compile first:"
-        echo "  cd $ALG_DIR"
-        echo "  nvcc -rdc=true -arch=sm_60 cuda_static_louvain.cu -o static_louvain"
-        echo "  nvcc -rdc=true -arch=sm_60 cuda_dynamic_louvain.cu -o dynamic_louvain"
-        echo "  nvcc -rdc=true -arch=sm_60 cuda_dynamic_louvain_nodebased.cu -o dynamic_louvain_nodebased"
-        exit 1
-    fi
-done
-
 if [ ! -f "$NX_SCRIPT" ]; then
     echo "ERROR: nx_louvain.py not found at $NX_SCRIPT"
     exit 1

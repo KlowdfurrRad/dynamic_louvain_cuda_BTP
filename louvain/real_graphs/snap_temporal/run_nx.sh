@@ -36,10 +36,10 @@ NODEBASED="$ALG_DIR/dynamic_louvain_nodebased.exe"
 # ============================================================================
 GRAPH_CONFIGS=(
     #  name            raw_file                 initial_pct   n_batches
-#    "   CollegeMsg     CollegeMsg.txt           0.8           5"
-#    "   sx-mathover    sx-mathoverflow.txt      0.8           5"
-    "   sx-askubuntu   sx-askubuntu.txt         0.8           5"
-#    "   sx-superuser   sx-superuser.txt         0.8           5"
+     "   CollegeMsg     CollegeMsg.txt           0.8           5"
+     "   sx-mathover    sx-mathoverflow.txt      0.8           5"
+     "   sx-askubuntu   sx-askubuntu.txt         0.8           5"
+     "   sx-superuser   sx-superuser.txt         0.8           5"
 )
 # ============================================================================
 
@@ -47,18 +47,6 @@ SEED=42
 NX_SKIP_ABOVE=2000000  # skip NetworkX above this many initial edges (too slow)
 
 mkdir -p "$OUT_DIR/cuda_static" "$OUT_DIR/normal" "$OUT_DIR/node_based" "$OUT_DIR/networkx" "$CONVERTED_DIR"
-
-# Check executables + helpers
-for exe in "$STATIC" "$DYNAMIC" "$NODEBASED"; do
-    if [ ! -f "$exe" ]; then
-        echo "ERROR: $exe not found. Compile first:"
-        echo "  cd $ALG_DIR"
-        echo "  nvcc -rdc=true -arch=sm_60 cuda_static_louvain.cu -o static_louvain"
-        echo "  nvcc -rdc=true -arch=sm_60 cuda_dynamic_louvain.cu -o dynamic_louvain"
-        echo "  nvcc -rdc=true -arch=sm_60 cuda_dynamic_louvain_nodebased.cu -o dynamic_louvain_nodebased"
-        exit 1
-    fi
-done
 
 if [ ! -f "$CONVERT_SCRIPT" ]; then
     echo "ERROR: converter not found at $CONVERT_SCRIPT"
