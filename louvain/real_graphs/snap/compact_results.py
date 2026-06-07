@@ -33,7 +33,7 @@ OUTPUTS_DIR = os.path.join(SCRIPT_DIR, "outputs")
 GRAPHS_DIR = os.path.join(SCRIPT_DIR, "graphs")
 RESULTS_CSV = os.path.join(SCRIPT_DIR, "results.csv")
 
-KNOWN_METHODS = ["df", "networkx", "cugraph"]   # ignore old cuda_static/normal/node_based
+KNOWN_METHODS = ["df", "networkx", "networkit", "cugraph"]   # ignore old cuda_static/normal/node_based
 METHOD_ORDER = {m: i for i, m in enumerate(KNOWN_METHODS)}
 VARIANT_ORDER = {"Static": 0, "rerun": 0, "ND": 1, "DF": 2, "DS": 3}
 

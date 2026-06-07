@@ -35,7 +35,7 @@ RE_NX = re.compile(
     r"communities=(\d+)\s+time=([-\d.eE]+)s")
 
 # preferred column/print order for methods
-METHOD_ORDER = {"df": 0, "networkx": 1, "cugraph": 2}
+METHOD_ORDER = {"df": 0, "networkx": 1, "networkit": 2, "cugraph": 3}
 
 
 def graph_nm(name):
