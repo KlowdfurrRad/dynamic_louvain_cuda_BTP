@@ -1,4 +1,4 @@
-louvain/real_graphs/LargeGraph/graphs/
-louvain/real_graphs/LargeGraph/outputs/
+louvain/real_graphs/LargeSnap/graphs/*
+louvain/real_graphs/LargeSnap/outputs/*
 louvain/__pycache__/
 louvain/algorithm/*.exe
