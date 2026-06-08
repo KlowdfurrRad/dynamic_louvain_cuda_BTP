@@ -113,9 +113,15 @@ def build_graph(edges):
     return G
 
 
-def run_louvain(edges, resolution):
+def run_louvain(edges, n, resolution):
     """Build the graph (untimed) and time one cugraph.louvain() invocation.
-    Returns (time_seconds, modularity, n_communities)."""
+    Returns (time_seconds, modularity, n_communities).
+
+    cuGraph derives its vertex set from the edge list, so vertices declared in the
+    input (0..n-1) but with no edges are absent from G. We add them back as singleton
+    communities so the count matches df_louvain / NetworkX / NetworKit, which cluster
+    all n vertices. (Without this, cuGraph reports far fewer communities on graphs with
+    many isolated vertices -- e.g. the early temporal batches.)"""
     G = build_graph(edges)
     cp.cuda.runtime.deviceSynchronize()      # finish graph build before timing
 
@@ -124,8 +130,10 @@ def run_louvain(edges, resolution):
     cp.cuda.runtime.deviceSynchronize()      # finish louvain before stopping timer
     elapsed = time.perf_counter() - t0
 
-    # parts: cudf DataFrame with columns 'vertex' and 'partition'
-    ncomm = int(parts["partition"].nunique())
+    # parts: cudf DataFrame with columns 'vertex' and 'partition'. Add the declared-
+    # but-isolated vertices back as singleton communities.
+    isolated = max(0, n - G.number_of_vertices())
+    ncomm = int(parts["partition"].nunique()) + isolated
     return elapsed, float(mod), ncomm
 
 
@@ -143,7 +151,7 @@ def process(name, path, resolution=1.0):
 
     invocations = []  # (label, nodes, edges, Q, communities, time)
 
-    t, q, c = run_louvain(list(edge_set), resolution)
+    t, q, c = run_louvain(list(edge_set), n, resolution)
     invocations.append(("initial", n, len(edge_set), q, c, t))
     print(f"  initial : nodes={n} edges={len(edge_set)} "
           f"Q={q:.6f} communities={c} time={t:.4f}s", flush=True)
@@ -155,7 +163,7 @@ def process(name, path, resolution=1.0):
             if u != v:
                 edge_set.add((u, v) if u < v else (v, u))
 
-        t, q, c = run_louvain(list(edge_set), resolution)
+        t, q, c = run_louvain(list(edge_set), n, resolution)
         invocations.append((f"batch {bi}", n, len(edge_set), q, c, t))
         print(f"  batch {bi:<3}: nodes={n} edges={len(edge_set)} "
               f"Q={q:.6f} communities={c} time={t:.4f}s", flush=True)

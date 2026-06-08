@@ -25,7 +25,7 @@ OUT_DIR="$SCRIPT_DIR/outputs/df"
 DF="$ALG_DIR/df_louvain.exe"
 [ -f "$DF" ] || DF="$ALG_DIR/df_louvain"
 
-GRAPHS=(com-Orkut)
+GRAPHS=(com-LiveJournal com-Orkut)
 
 mkdir -p "$OUT_DIR"
 
