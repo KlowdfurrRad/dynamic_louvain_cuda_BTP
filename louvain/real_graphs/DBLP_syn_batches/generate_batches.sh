@@ -32,7 +32,7 @@ if [ ! -f "$SRC" ]; then
 fi
 
 # "<pct>:<fraction-of-|E|>"
-for cfg in "2:0.02" "5:0.05" "10:0.10"; do
+for cfg in "2:0.02" "5:0.05" "10:0.10" "20:0.2"; do
     pct="${cfg%%:*}"
     frac="${cfg##*:}"
     out="$GRAPHS_DIR/com-dblp-5-${pct}.txt"
