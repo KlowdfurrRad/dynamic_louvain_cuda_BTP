@@ -1,0 +1,9 @@
+graph,method,nodes,edges,modularity,communities,passes,time_s
+dolphins,df,62,159,0.515921,6,3,0.229
+dolphins,networkx,62,159,0.518828,5,,0.004
+dolphins,networkit,62,159,0.518828,5,,0.0003
+dolphins,cugraph,62,159,0.524109,5,,0.0498
+karate,df,34,78,0.415598,4,3,0.256
+karate,networkx,34,78,0.385355,3,,0.0044
+karate,networkit,34,78,0.415598,4,,0.0003
+karate,cugraph,34,78,0.415598,4,,0.0389
