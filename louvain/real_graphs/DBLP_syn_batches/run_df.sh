@@ -19,7 +19,7 @@ OUT_DIR="$SCRIPT_DIR/outputs/df"
 DF="$ALG_DIR/df_louvain.exe"
 [ -f "$DF" ] || DF="$ALG_DIR/df_louvain"
 
-GRAPHS=(com-dblp-5-2 com-dblp-5-5 com-dblp-5-10)
+GRAPHS=(com-dblp-5-2 com-dblp-5-5 com-dblp-5-10 com-dblp-5-20)
 
 mkdir -p "$OUT_DIR"
 

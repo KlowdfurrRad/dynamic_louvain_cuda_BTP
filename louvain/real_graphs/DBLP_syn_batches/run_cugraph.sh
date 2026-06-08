@@ -19,7 +19,7 @@ OUT_DIR="$SCRIPT_DIR/outputs/cugraph"
 
 CUGRAPH_SCRIPT="$ALG_DIR/cugraph_louvain.py"
 
-GRAPHS=(com-dblp-5-2 com-dblp-5-5 com-dblp-5-10)
+GRAPHS=(com-dblp-5-2 com-dblp-5-5 com-dblp-5-10 com-dblp-5-20)
 
 mkdir -p "$OUT_DIR"
 

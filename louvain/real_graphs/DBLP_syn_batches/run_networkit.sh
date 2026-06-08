@@ -20,7 +20,7 @@ OUT_DIR="$SCRIPT_DIR/outputs/networkit"
 NK_SCRIPT="$ALG_DIR/networkit_louvain.py"
 SEED=42
 
-GRAPHS=(com-dblp-5-2 com-dblp-5-5 com-dblp-5-10)
+GRAPHS=(com-dblp-5-2 com-dblp-5-5 com-dblp-5-10 com-dblp-5-20)
 
 mkdir -p "$OUT_DIR"
 
