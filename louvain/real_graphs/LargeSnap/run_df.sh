@@ -48,12 +48,12 @@ for name in "${GRAPHS[@]}"; do
         continue
     fi
 
-    "$DF" "$OUT_DIR/${name}_df_communities.txt" \
+    "$DF" "$OUT_DIR/${name}_communities.txt" \
         < "$input" \
-        > "$OUT_DIR/${name}_df.txt" 2>&1
+        > "$OUT_DIR/${name}.txt" 2>&1
     if [ $? -eq 0 ]; then
-        echo "  df_louvain: OK  (log: $OUT_DIR/${name}_df.txt)"
+        echo "  df_louvain: OK  (log: $OUT_DIR/${name}.txt)"
     else
-        echo "  df_louvain: FAILED (see $OUT_DIR/${name}_df.txt)"
+        echo "  df_louvain: FAILED (see $OUT_DIR/${name}.txt)"
     fi
 done

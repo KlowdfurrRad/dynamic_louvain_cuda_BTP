@@ -46,10 +46,10 @@ for name in "${GRAPHS[@]}"; do
     fi
 
     python "$CUGRAPH_SCRIPT" "$input" \
-        > "$OUT_DIR/${name}_cugraph.txt" 2>&1
+        > "$OUT_DIR/${name}.txt" 2>&1
     if [ $? -eq 0 ]; then
-        echo "  cuGraph: OK  (log: $OUT_DIR/${name}_cugraph.txt)"
+        echo "  cuGraph: OK  (log: $OUT_DIR/${name}.txt)"
     else
-        echo "  cuGraph: FAILED (see $OUT_DIR/${name}_cugraph.txt)"
+        echo "  cuGraph: FAILED (see $OUT_DIR/${name}.txt)"
     fi
 done

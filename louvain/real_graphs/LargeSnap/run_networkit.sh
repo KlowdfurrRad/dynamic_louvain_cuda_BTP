@@ -49,10 +49,10 @@ for name in "${GRAPHS[@]}"; do
 
     echo "  Running NetworKit ..."
     python "$NK_SCRIPT" "$input" --seed "$SEED" \
-        > "$OUT_DIR/${name}_networkit.txt" 2>&1
+        > "$OUT_DIR/${name}.txt" 2>&1
     if [ $? -eq 0 ]; then
-        echo "  NetworKit: OK  (log: $OUT_DIR/${name}_networkit.txt)"
+        echo "  NetworKit: OK  (log: $OUT_DIR/${name}.txt)"
     else
-        echo "  NetworKit: FAILED (see $OUT_DIR/${name}_networkit.txt)"
+        echo "  NetworKit: FAILED (see $OUT_DIR/${name}.txt)"
     fi
 done

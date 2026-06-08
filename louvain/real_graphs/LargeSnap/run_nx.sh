@@ -48,10 +48,10 @@ for name in "${GRAPHS[@]}"; do
 
     echo "  Running NetworkX (this may take a long time) ..."
     python "$NX_SCRIPT" "$input" --seed "$SEED" \
-        > "$OUT_DIR/${name}_nx.txt" 2>&1
+        > "$OUT_DIR/${name}.txt" 2>&1
     if [ $? -eq 0 ]; then
-        echo "  NetworkX: OK  (log: $OUT_DIR/${name}_nx.txt)"
+        echo "  NetworkX: OK  (log: $OUT_DIR/${name}.txt)"
     else
-        echo "  NetworkX: FAILED (see $OUT_DIR/${name}_nx.txt)"
+        echo "  NetworkX: FAILED (see $OUT_DIR/${name}.txt)"
     fi
 done
