@@ -171,25 +171,49 @@ Citation key: `cordeiro2016dynamic`.
 
 ## Seifikar, Farzi, Barati (2020) — C-Blondel
 
-> ⚠️ **Verification note.** I do not currently have an open-access copy of this paper. Full text is behind the IEEE Xplore paywall (DOI 10.1109/TCSS.2020.2964197); Newcastle University's ePrints page has only the metadata. The GitHub implementation [github.com/MahsaSeifikar/CBlondel](https://github.com/MahsaSeifikar/CBlondel) exists but is not a substitute for the paper. **Specific algorithmic claims I cannot independently verify have been removed from this entry.**
+> ✅ **Now verified from the PDF** (IEEE TCSS 7(2):308–318, Apr 2020). This replaces the earlier no-PDF placeholder. Correction: the "destructive node" rule is a degree-centrality threshold $d_u \ge \alpha\,\bar{d}_{C_u}$ — *not* the "50% intra-community degree fraction" previously guessed.
 
-A dynamic-Louvain extension that uses graph-structural cues to decide where to re-optimise after a graph change. The "C" in C-Blondel evokes "Compact" or "Compressed" — the algorithm builds a compressed graph in which super-nodes represent the previous step's communities and super-edges represent inter-community edges, then integrates Louvain over that smaller compressed structure (per the abstract excerpts I have located via Sahu's GVE-Louvain reference and various third-party citations).
+### Introduction
+Dynamic community detection tracks community evolution across network snapshots. The paper splits prior work into two groups: (1) run a static algorithm on every snapshot and map communities between consecutive ones — high modularity but slow; (2) reuse the previous snapshot's communities + historical information to cut runtime. **C-Blondel is in group 2**: it runs Louvain over a *compressed graph* derived from the previous snapshot, which is far smaller than the full graph, so it is faster than re-running Louvain.
 
-**What's verifiable from the bibliographic record and citing papers:**
-- Authors: Mahsa Seifikar, Saeed Farzi, Masoud Barati.
-- Affiliation: K.N. Toosi University of Technology (Tehran, Iran) and others.
-- Venue: IEEE Transactions on Computational Social Systems, vol. 7, no. 2, pp. 308–318 (2020). DOI: 10.1109/TCSS.2020.2964197.
-- Software: open-source C++ implementation at [github.com/MahsaSeifikar/CBlondel](https://github.com/MahsaSeifikar/CBlondel).
+### Novelty / Contributions
+1. **Compressed-graph Louvain ("C" = Compressed).** Build a compressed graph $G_t^H$ whose **supernodes are the previous snapshot's communities** (or sub-communities) and **superedges are the inter-community edges**, then run Louvain on it. Since $|V|\gg|V^H|$ and $|E|\gg|E^H|$, Louvain on $G_t^H$ is cheap.
+2. **Destructive-node heuristic.** Only communities holding a **destructive node** are re-optimised. A node is destructive (its removal can "blow up" / split its community) if its degree is high relative to its community: $d_u \ge \alpha\,\bar{d}_{C_u}$, where $\bar{d}_{C_u}$ is the community's average degree and **$\alpha$ (the "destruction parameter") is the algorithm's only parameter**. Lemma 1 formalises the blow-up condition.
+3. **Unified change model.** All edits (appearing/disappearing nodes and edges) are reduced to **"remove a node from its community"** actions; only destructive removals trigger a split. Unlike **D-Blondel** (He et al. 2017), which computes the "tendency" of *all* nodes, C-Blondel computes it only for *destructive* nodes → faster.
 
-**What I cannot independently verify** (and therefore no longer claim in this entry):
-- The "destructive nodes" definition (whether it's based on intra-community degree fraction with a specific threshold like 50 %, or a different heuristic, or a betweenness-like score)
-- The specific "community blow-up" handling
-- The "modularity within 0.5 % of from-scratch" headline
-- The "3–10× speedup" range
-- The "5–20 affected communities" estimate
-- The framing as "complementary to delta-screening"
+### Algorithm
+For snapshot $t$, instead of running Louvain on the full $G_t$:
+- **Algorithm 1.** `ConstructCompressedGraph(G_{t-1}, G_t, C(G_{t-1}))` → $G_t^H$; then `C(G_t) ← Louvain(G_t^H)`.
+- **Algorithm 2 (build compressed graph).** `PullOutChanges` extracts the edits; each is handled via `RemoveNode`:
+  - *Remove node $u$* → `RemoveNode(u, C_u)`.
+  - *Remove edge $(u,v)$* → if same community, `RemoveNode` both endpoints; if cross-community, the removal only *raises* modularity, so just lower the weight.
+  - *Add node $u$* → add as a supernode and `RemoveNode` each neighbour from its community.
+  - *Add edge $(u,v)$* → if different communities, `RemoveNode` both; if inner edge, do nothing.
+- **Algorithm 3 (`RemoveNode`).** If $d_u \ge \alpha\,\bar{d}_{C_u}$ (destructive), run Louvain on $C_u$ and turn each resulting sub-community into a supernode; otherwise keep $C_u$ as a single supernode. So **only destructive nodes cause a community to be split and re-optimised** — everything else stays aggregated.
+- **Complexity (Eq 12):** $O(|V^H|\log|V^H|) + O(2|\Delta G|\cdot n_r^c\log n_r^c)$ — Louvain on the small compressed graph plus the change-processing cost.
 
-**For the BTP.** Cite as one of the dynamic-Louvain papers in the same broad family as Cordeiro (locality-by-affected-community) and Zarayeneh (locality-by-modularity-bound). *Action item: obtain the PDF (institutional IEEE Xplore access) before final submission and revise this entry with paper-faithful detail.*
+### More interesting points
+- **The destruction parameter $\alpha$ is a single quality–speed knob.** Higher $\alpha$ → fewer destructive nodes → more nodes folded into supernodes → smaller compressed graph → **faster but lower modularity**; lower $\alpha$ → larger graph → **slower but higher modularity**. Empirically the **balance is near $\alpha\approx0.6$** (best modularity at $\alpha\approx0.1$, best speed at $\alpha=1$).
+- $\alpha$ is **graph-dependent**: the paper ties it to the power-law degree exponent (estimated 4.17 for Cit-HepTh, 4.45 for Facebook, 3.05 for Enron); on Enron the behaviour is flat in $\alpha$ because 88.5% of nodes are below the average degree.
+- The compressed-graph + destructive-node design means **unchanged communities are never touched** — the same instinct as Cordeiro (keep unaffected communities) but the *trigger* is node influence (degree) rather than a modularity-gain predicate.
+
+### Baselines (graphs and baseline algorithms)
+**Baseline algorithms:** **S-Blondel** (Greene et al. 2010 [16] — run Louvain on the *full original* graph each snapshot, map via Jaccard) and **D-Blondel** (He et al. 2017 [1] — division+agglomeration Louvain on a compressed graph, computing tendency of *all* nodes). Both Louvain-based. Metrics: **modularity** (quality), **execution time** (efficiency), number of communities; 30 runs averaged.
+
+**Datasets (Table I; 31 / 31 / 15 snapshots over Jan 1993 – Apr 2003):**
+| Dataset | Nodes | Edges | Avg deg | cc |
+|---|---|---|---|---|
+| Cit-HepTh (arXiv citations) | 21,550 | 201,099 | 18.66 | 0.292 |
+| Enron Email | 83,910 | 325,526 | 7.70 | 0.402 |
+| Facebook (New Orleans) | 61,096 | 614,797 | 14.62 | 0.218 |
+
+**Results:** C-Blondel is **faster than S-Blondel and D-Blondel** at moderate-to-high $\alpha$ (on Cit-HepTh the speed-up reaches ~5× at $\alpha=1$, Fig 2), with **modularity comparable** to both (within ~0.02). At low $\alpha$ it is slower but slightly higher modularity. The headline is **execution-time superiority at comparable modularity**, tunable via $\alpha$.
+
+### Takeaways
+- A 2020 **CPU dynamic Louvain** that keeps unchanged communities **aggregated as supernodes** and only **splits/re-optimises communities holding a high-degree "destructive" node** ($d_u\ge\alpha\bar d_{C_u}$) — another member of the "only touch the affected part" incremental-Louvain family.
+- **Distinct affected-set criterion:** unlike delta-screening (modularity-gain predicate) or DF-Louvain (frontier expansion), C-Blondel bounds the work by **node degree/influence**. Worth contrasting in the BTP's related-work as a different way of choosing what to recompute.
+- The **compressed-graph reuse** (run Louvain on previous communities, disband only the affected ones) is conceptually close to Cordeiro's two-level scheme and to the BTP's incremental aggregation.
+- **Vs the BTP:** CPU/sequential, needs the graph-dependent parameter $\alpha$ (tied to the power-law exponent), and modularity degrades at high $\alpha$. The BTP is GPU-parallel and uses screening / frontier marking with no such tuning knob.
 
 Citation key: `seifikar2020cblondel`.
 

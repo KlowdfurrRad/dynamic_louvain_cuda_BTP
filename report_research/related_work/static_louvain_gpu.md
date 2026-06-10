@@ -244,27 +244,55 @@ Citation key: `mohammadi2021accelerating`.
 
 ## Chou, Ghosh (2022) — Nido: Batched Graph Community Detection on GPUs
 
-> ⚠️ **Verification note.** I do not currently have an open-access copy of this paper. Full text is behind the ACM Digital Library paywall (DOI 10.1145/3559009.3569655); no OSTI/PNNL preprint is indexed. Source code is at [github.com/sg0/nido](https://github.com/sg0/nido), but the README does not substitute for the paper's algorithmic details. **Specific algorithmic details I cannot independently confirm have been removed from this entry.**
+> ✅ **Now verified from the PDF** (PACT '22, pp. 172–184). Replaces the earlier no-PDF placeholder. Key facts: the parallel-update heuristic is **batched vertex update** (process vertices in consecutive synchronised batches, *not* graph colouring), and per-community weight is accumulated by **sort + `reduce_by_key`** (segmented reduction), not a hash table. (First author **Han-Yi Chou**, NVIDIA / work done at UIUC; **Sayan Ghosh**, PNNL.)
 
-Nido is a multi-GPU CUDA Louvain implementation, named after a partition-based batched-clustering scheme that allows the algorithm to process graphs larger than the combined GPU memory of a single node.
+### Introduction
+Modularity Louvain is **inherently sequential**; naïve parallel local-moving lets adjacent vertices update concurrently against **stale** community info, which admits negative-gain moves and local maxima. The standard fix is **graph colouring** (distance-$k$) so same-colour, non-adjacent vertices move in parallel — but colouring is costly (optimal colouring is NP-complete, needs vertex reordering, and a sync per colour set). Nido proposes a **simpler heuristic, "batched vertex update"**: split the vertices into user-defined **batches** and process them **one batch after another (bulk-synchronous)**, so a later batch sees the earlier batches' updated communities. It is a **multi-GPU** CUDA/OpenMP implementation that, through partitioning, can cluster graphs **larger than the combined GPU memory** of a node.
 
-**What's verifiable from the bibliographic record and the GitHub README:**
-- Authors (verified via Sahu 2023 GVE-Louvain reference [7]): Han-Yi Chou and Sayan Ghosh.
-- Venue: **PACT 2022** (Proceedings of the International Conference on Parallel Architectures and Compilation Techniques) — *not* CIKM, despite the `10.1145/3559009` DOI prefix being shared with CIKM in some indexing services.
-- DOI: 10.1145/3559009.3569655 (verified via ACM and Sahu 2023's reference list).
-- The "Nido" name is Italian for "nest", chosen for the partition-based design.
-- Software: multi-GPU C++/CUDA Louvain implementation released under the GitHub repo above.
+### Novelty / Contributions
+1. **Batched vertex update** — a colouring-free way to sequentialise adjacent updates: batches run in parallel *within* a GPU's partition and *across* GPUs, with a host–device sync at the **end of every batch**. #batches is a knob trading speed vs quality.
+2. **Multi-GPU via UVA** — CUDA **Unified Virtual Addressing** (peer access) lets a vertex read/migrate to a community held in *another* device's memory directly; **binary search** finds the owning device.
+3. **Adaptive partitioning (out-of-core)** — partition the graph by the **maximum #edges that fit on the device** (`cudaMemGetInfo`) and stream partitions, so graphs bigger than one GPU's memory can be processed.
+4. Extensive **convergence/scalability** study and quality/perf comparison vs Grappolo (CPU) and cuGraph (GPU) on DGX-2 (V100) and DGX-A100.
 
-**What I cannot verify without the PDF** (and therefore no longer claim in this entry):
-- The exact batching policy (whether batches are fixed-size, the default size, the read-pre-batch / write-next-batch mechanism)
-- Specific iteration-count or wall-clock comparison numbers vs. Naim 2017
-- The "U-shaped batch-size effect on quality" observation
-- The "1024–4096 vertices per batch sweet spot"
-- The headline "~30% faster than Naim on SNAP" claim
+### Algorithm
+- Graph in CSR, **edge-based partitioning** for load balance; OpenMP threads pinned per NUMA/GPU.
+- **Batched Louvain (Alg 1):** outer loop = phases; inner loop = iterations until $\Delta Q<\tau$ (default $10^{-6}$). Each iteration, for each GPU (via OpenMP): copy a partition to the device, then **for each batch $b$: for each vertex $v$ in the batch, $C[v]\leftarrow\arg\max_c \Delta Q$**, then **host–device sync** before the next batch. After convergence, **graph compaction** (CPU/OpenMP) builds the coarsened CSR.
+- **Per-community weight $e_{i\to c}$:** Nido stores a vertex's incident edges **sorted by the neighbour's community id**, then runs a **segmented reduction (`thrust::reduce_by_key`)** over the sorted edge weights so equal communities sum together; the best $\Delta Q$ is then a simple scan. The **sort is per-batch** (only that batch's edges), not the whole graph.
+- **Thread mapping:** cooperative groups (size 16/32) — a thread block is split into cooperative thread groups, each group handles one vertex, and the vertex's incident edges are dealt to the group's threads by `edge_index mod group_size`; warp-collective `shuffle` does the reductions.
+- **Partitions vs batches:** *batches* control quality/sequentialisation (sync between them); *partitions* control memory (a partition = the largest edge-block that fits the GPU; a batch larger than a partition is processed partition-by-partition). 2–4 CUDA streams overlap partitions.
 
-Sahu 2023 (Table 1) cites Nido (1 GPU) as having a 9.2× indirect speedup ratio relative to Grappolo (and GVE-Louvain in turn beats Nido by 6.7×) — but the exact mechanism behind those numbers I cannot describe paper-faithfully without the PDF.
+### More interesting points
+- **The sort dominates runtime** — profiling (Fig 7) shows **50–80% of GPU time is the sort** (community-ordering the edges); the actual modularity compute is ~10–20%. On small graphs (com-orkut) memory allocation/transfer dominates (up to **97% on 8 GPUs** — little useful work, no scaling).
+- **Batching is sometimes required for *correctness*, not just quality:** **mycielskian20** has no triangles, so a single batch makes colour-free parallel Louvain **exit at the very first iteration** (no productive move) — they must use 4 batches. So batching isn't only a quality knob; it lets parallel Louvain make any progress at all on some graphs.
+- **Quality vs #batches is graph-dependent:** for low-modularity graphs ($\le0.7$) batches barely matter (Fig 8); for high-modularity graphs (→1) more batches → more phases but **40–60% better quality** and **20–45% fewer iterations in the expensive first phase** (Figs 9–10). #batches ranges 2–2048.
+- **cuGraph caveats** (same as cuVite reports): cuGraph uses the **min-label** heuristic and a looser **$10^{-3}$** threshold (Nido uses $10^{-6}$), and runs **out-of-memory** on large graphs even multi-GPU (Dask MNMG); Nido is **1.5–30× faster** than cuGraph(MNMG).
 
-**For the BTP.** Cite Nido as a multi-GPU GPU Louvain comparison point. Any specific algorithmic claim ("the BTP's kernel is similar to / different from Nido in X way") needs to be re-verified against the actual paper before being asserted in the report. *Action item: obtain the PDF (via institutional ACM Digital Library access or by emailing the authors) before final submission and revise this entry.*
+### Baselines (graphs and baseline algorithms)
+**Baseline algorithms:** **Grappolo** (Lu et al. — optimised shared-memory CPU Louvain with distance-1 colouring, 128 OpenMP threads on Intel CLX; the "best CPU" baseline) and **cuGraph** (NVIDIA RAPIDS, single-GPU SG + multi-GPU MNMG via Dask). **Platforms:** DGX-2 (16× V100/32 GB), DGX-A100 (8× A100/40 GB), IBM Power9 + 4× V100.
+
+**Datasets (Table 2; ordered by #edges):**
+| Graph | \|V\| | \|E\| |
+|---|---|---|
+| uk-2007-05 | 105.9M | 6.6B |
+| sk-2005 | 50.6M | 3.86B |
+| com-friendster | 65.6M | 3.61B |
+| twitter7 | 41.7M | 2.93B |
+| it-2004 | 41.3M | 2.27B |
+| mycielskian20 | 786K | 1.35B |
+| webbase-2001 | 118.1M | 1.98B |
+| com-orkut | 3.07M | 234.4M |
+
+(plus quality graphs: Graph500-scale21/22/23, MAWI-1..4, Graph-Challenge "hihi" hard cases, sx-stackoverflow, mycielskian17/18.)
+
+**Headline results:** speedups **2–14× (16× V100)** / **1.3–7.5× (8× A100)**; max **50× / 30×** over single-batch Grappolo / GPU-Louvain baselines. Per Table 2, over a single GPU: **1.5–13.75×**; over 128-thread Grappolo: **0.27×–53.43×** (the CPU still wins on uk-2007, sk-2005, webbase — large web graphs favour Grappolo). Quality (Table 3): matches or beats Grappolo on **>11/16** graphs and beats cuGraph/Grappolo on **12/16**; better F-score than cuGraph on the Graph-Challenge "hard" cases (Table 4).
+
+### Takeaways (for the BTP)
+- **The cleanest contrast to your `df_louvain`.** Both attack the *same* problem — parallel Louvain's negative-gain / 2-swap from stale community info — but differently: **Nido uses coarse-grained batching + sync** (no locks, no colouring), whereas **df_louvain uses fine-grained verified-commit-under-lock**. State it plainly: Nido sequentialises *groups of vertices in time*; df_louvain serialises *only the conflicting move* via the community-pair lock.
+- **Per-community accumulation = the "sort" branch of the design space.** Nido = **sort + `reduce_by_key`**; cuVite = list-dedup / dense-array; df_louvain = **per-vertex hash**. A tidy three-way comparison for the report — and note Nido's sort costs **50–80% of GPU time**, which the hash avoids.
+- **Triangle-free correctness note:** mycielskian20 needs batches just to make a move; your verified-commit kernel doesn't have that failure mode (it can still commit a positive move) — a small point in favour of the locking approach.
+- **Out-of-core via partitioning** is a scaling capability the BTP (single-GPU, in-core) lacks; Nido and cuVite both stream/spread to exceed device memory.
+- Same author (Ghosh) as cuVite, but distinct: **cuVite = distributed multi-node**; **Nido = single-node multi-GPU + batching + out-of-core**.
 
 Citation key: `chou2022nido`.
 

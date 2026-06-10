@@ -793,6 +793,30 @@ int main(int argc, char** argv) {
 
     const char* outFile = (argc > 1) ? argv[1] : nullptr;
 
+    // ---- optional per-batch assignment dump (enable with env DF_DUMP=1) ----
+    // Writes <prefix>_b<k>[_<method>].txt (one "v comm" per line) so the partition can
+    // be compared across batches with compare_allocations.py. prefix is derived from
+    // argv[1] (strip "_communities.txt" / ".txt"), organising dumps per graph.
+    bool doDump = (getenv("DF_DUMP") != nullptr) && outFile;
+    string dumpPrefix;
+    if (doDump) {
+        string s = outFile;
+        const string suf = "_communities.txt";
+        if (s.size() >= suf.size() &&
+            s.compare(s.size() - suf.size(), suf.size(), suf) == 0)
+            dumpPrefix = s.substr(0, s.size() - suf.size());
+        else if (s.size() >= 4 && s.compare(s.size() - 4, 4, ".txt") == 0)
+            dumpPrefix = s.substr(0, s.size() - 4);
+        else
+            dumpPrefix = s;
+    }
+    auto dumpComm = [&](const string& tag, const vector<int>& comm) {
+        if (!doDump) return;
+        ofstream f(dumpPrefix + "_" + tag + ".txt");
+        for (int v = 0; v < N; ++v) f << v << ' ' << comm[v] << '\n';
+    };
+    dumpComm("b0", st.comm);     // shared static start for ND/DF/DS
+
     // =================== DYNAMIC BATCHES ===================
     int nBatches;
     if (cin >> nBatches) {
@@ -846,6 +870,7 @@ int main(int argc, char** argv) {
                 printf("[batch %d] ND: Q=%.6f comms=%d time=%ld ms\n",
                        b + 1, Q, numCommunities(r.comm), ms);
                 sND.comm = r.comm; sND.K = Knew; sND.Sigma = sigmaOf(r.comm, Knew); sND.M = Mnew;
+                dumpComm("b" + to_string(b + 1) + "_ND", sND.comm);
             }
             // ---------- DF ----------
             {
@@ -859,6 +884,7 @@ int main(int argc, char** argv) {
                 printf("[batch %d] DF: Q=%.6f comms=%d affected0=%d time=%ld ms\n",
                        b + 1, Q, numCommunities(r.comm), naff, ms);
                 sDF.comm = r.comm; sDF.K = Knew; sDF.Sigma = sigmaOf(r.comm, Knew); sDF.M = Mnew;
+                dumpComm("b" + to_string(b + 1) + "_DF", sDF.comm);
             }
             // ---------- DS ----------
             {
@@ -873,6 +899,7 @@ int main(int argc, char** argv) {
                 printf("[batch %d] DS: Q=%.6f comms=%d affected0=%d time=%ld ms\n",
                        b + 1, Q, numCommunities(r.comm), naff, ms);
                 sDS.comm = r.comm; sDS.K = Knew; sDS.Sigma = sigmaOf(r.comm, Knew); sDS.M = Mnew;
+                dumpComm("b" + to_string(b + 1) + "_DS", sDS.comm);
             }
         }
     }

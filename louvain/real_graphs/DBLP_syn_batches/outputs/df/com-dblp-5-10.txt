@@ -1,0 +1,18 @@
+===== STATIC =====
+Static: Q=0.820852  communities=171  passes=6  time=298 ms
+[batch 1] ND: Q=0.778382 comms=171 time=42 ms
+[batch 1] DF: Q=0.776467 comms=171 affected0=140398 time=33 ms
+[batch 1] DS: Q=0.778390 comms=171 affected0=317080 time=38 ms
+[batch 2] ND: Q=0.736823 comms=171 time=34 ms
+[batch 2] DF: Q=0.735266 comms=171 affected0=138716 time=31 ms
+[batch 2] DS: Q=0.736821 comms=171 affected0=317073 time=32 ms
+[batch 3] ND: Q=0.698591 comms=171 time=29 ms
+[batch 3] DF: Q=0.697450 comms=171 affected0=136874 time=34 ms
+[batch 3] DS: Q=0.698596 comms=171 affected0=317080 time=29 ms
+[batch 4] ND: Q=0.663462 comms=171 time=28 ms
+[batch 4] DF: Q=0.662561 comms=171 affected0=135831 time=29 ms
+[batch 4] DS: Q=0.663470 comms=171 affected0=317080 time=31 ms
+[batch 5] ND: Q=0.631052 comms=171 time=30 ms
+[batch 5] DF: Q=0.630310 comms=171 affected0=134433 time=30 ms
+[batch 5] DS: Q=0.631060 comms=171 affected0=317073 time=60 ms
+DF communities written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/real_graphs/DBLP_syn_batches/outputs/df/com-dblp-5-10_communities.txt

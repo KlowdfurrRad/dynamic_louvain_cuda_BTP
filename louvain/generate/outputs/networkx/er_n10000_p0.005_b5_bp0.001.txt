@@ -1,12 +1,12 @@
 Running er_n10000_p0.005_b5_bp0.001.txt...
-  initial : nodes=10000 edges=250012 Q=0.126959 communities=8 time=4.8810s
-  batch 1  : nodes=10000 edges=250012 Q=0.126623 communities=9 time=5.0802s
-  batch 2  : nodes=10000 edges=250012 Q=0.127068 communities=8 time=5.4327s
-  batch 3  : nodes=10000 edges=250012 Q=0.126852 communities=8 time=5.0731s
-  batch 4  : nodes=10000 edges=250012 Q=0.129743 communities=6 time=7.1317s
-  batch 5  : nodes=10000 edges=250012 Q=0.128463 communities=7 time=6.5686s
-  TOTAL Louvain time over 6 invocation(s): 34.1672s
+  initial : nodes=10000 edges=250012 Q=0.126959 communities=8 time=4.9189s
+  batch 1  : nodes=10000 edges=250012 Q=0.126623 communities=9 time=5.0895s
+  batch 2  : nodes=10000 edges=250012 Q=0.127068 communities=8 time=5.3069s
+  batch 3  : nodes=10000 edges=250012 Q=0.126852 communities=8 time=4.9916s
+  batch 4  : nodes=10000 edges=250012 Q=0.129743 communities=6 time=4.6214s
+  batch 5  : nodes=10000 edges=250012 Q=0.128463 communities=7 time=4.4930s
+  TOTAL Louvain time over 6 invocation(s): 29.4213s
 
 Graph               Nodes        Edges   Modularity   Communities  Init t(s)  Total t(s)
 ---------------------------------------------------------------------------------------
-er_n10000_p0.005_b5_bp0.001.txt      10000       250012     0.126959             8     4.8810     34.1672
+er_n10000_p0.005_b5_bp0.001.txt      10000       250012     0.126959             8     4.9189     29.4213

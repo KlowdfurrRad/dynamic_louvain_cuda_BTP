@@ -1,0 +1,3 @@
+graph,nodes,edges,method,variant,batch,modularity,communities,passes,affected,time_s
+com-LiveJournal,3997962,34681189,df,Static,0,0.746793,1525,4,,9.806
+com-LiveJournal,3997962,34681189,cugraph,rerun,0,0.73418,17846,,,66.8229

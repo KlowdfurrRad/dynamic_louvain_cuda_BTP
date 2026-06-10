@@ -1,0 +1,7 @@
+graph,nodes,edges,method,variant,batch,modularity,communities,passes,affected,time_s
+com-LiveJournal,3997962,34681189,df,Static,0,0.745268,1542,4,,27.461
+com-LiveJournal,3997962,34681189,networkit,rerun,0,0.74315,2920,,,22.3244
+com-LiveJournal,3997962,34681189,cugraph,rerun,0,0.734215,17875,,,28.2235
+com-Orkut,3072441,117185083,df,Static,0,0.669307,30,4,,126.484
+com-Orkut,3072441,117185083,networkit,rerun,0,0.674177,26,,,37.0808
+com-Orkut,3072441,117185083,cugraph,rerun,0,0.661977,38,,,67.8981

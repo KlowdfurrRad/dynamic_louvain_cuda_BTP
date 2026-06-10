@@ -21,6 +21,12 @@ DF="$ALG_DIR/df_louvain.exe"
 
 GRAPHS=(com-dblp-5-2 com-dblp-5-5 com-dblp-5-10 com-dblp-5-20)
 
+# Set DUMP=1 to also dump per-batch community assignments for compare_allocations.py
+# (writes outputs/df/<name>_b0.txt and <name>_b<k>_<ND|DF|DS>.txt). Set 0 to skip.
+DUMP=1
+DUMP_ENV=""
+[ "$DUMP" = 1 ] && DUMP_ENV="DF_DUMP=1"
+
 mkdir -p "$OUT_DIR"
 
 if [ ! -f "$DF" ]; then
@@ -42,7 +48,7 @@ for name in "${GRAPHS[@]}"; do
         continue
     fi
 
-    "$DF" "$OUT_DIR/${name}_communities.txt" \
+    env $DUMP_ENV "$DF" "$OUT_DIR/${name}_communities.txt" \
         < "$input" \
         > "$OUT_DIR/${name}.txt" 2>&1
     if [ $? -eq 0 ]; then

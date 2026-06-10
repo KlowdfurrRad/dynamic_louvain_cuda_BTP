@@ -130,3 +130,73 @@ graphs in a single process (and reuse device buffers) instead of relaunching the
 binary per graph. The context-initialisation floor (~100 ms per process) remains,
 so the GPU will still lose to the CPU on individual tiny graphs; the win is only
 amortised across many of them.
+
+---
+
+## 3. Graph structure vs. performance — why some graphs do badly
+
+`df_louvain`'s **relative** speed (vs cuGraph / NetworKit) is governed by the input's
+**degree distribution**, not its size. It dominates on bounded-degree graphs and loses
+its advantage on scale-free social networks with extreme hub vertices.
+
+### 3.1 Degree statistics of the *converted* benchmark graphs
+
+All figures are measured on the **converted** graphs (the simple, undirected, 0-indexed
+form fed to every implementation — e.g. web-Google is symmetrised from its directed raw
+form), not the raw SNAP files. **Top-0.1% E** = % of edge endpoints incident to the top
+0.1% highest-degree vertices (a hub-concentration measure).
+
+| Graph | Type | Vertices | Edges | Avg deg | **Max deg** | Max/avg | Top-0.1% E | df vs NetworKit |
+|-------|------|---------:|------:|--------:|------------:|--------:|-----------:|:---------------:|
+| com-dblp | collaboration | 317,080 | 1,049,866 | 6.6 | **343** | 52 | 2% | **4.5× faster** |
+| com-amazon | co-purchasing | 334,863 | 925,872 | 5.5 | **549** | 99 | 2% | **5.4× faster** |
+| web-Google | web | 875,713 | 4,322,051 | 9.9 | **6,332** | 641 | 8% | **15× faster** |
+| com-Youtube | social | 1,134,890 | 2,987,624 | 5.3 | **28,754** | 5,461 | 16% | 1.2× (≈ tie) |
+| com-LiveJournal | social | 3,997,962 | 34,681,189 | 17.4 | **14,815** | 854 | 4% | 0.8× (slower) |
+| com-Orkut | social | 3,072,441 | 117,185,083 | 76.3 | **33,313** | 437 | 3% | 0.3× (3.4× slower) |
+
+The good/bad split tracks **maximum degree**: amazon/dblp (max < 600) and web-Google
+(max 6,332) → df fast; Youtube/LiveJournal/Orkut (max 15k–33k) → df slow. Modularity stays
+competitive on all (highest on LiveJournal) — this is a **throughput**, not a **quality**,
+effect. **Top-0.1% E** adds nuance: Youtube is the most hub-concentrated (16%), while Orkut
+— though densest — is not (3%), so Orkut's cost is **density**, not hub concentration.
+
+### 3.2 Code-level causes
+
+1. **SIMT load imbalance (primary).** The local-move kernel is vertex-parallel: one thread
+   per vertex doing O(deg) work (scan neighbours → per-vertex hashtable → re-scan for the
+   best community). A warp of 32 threads runs in lock-step, so it cannot retire until its
+   slowest lane finishes. One hub of degree 28,754 in a warp ⇒ the other 31 lanes sit idle
+   for ~28,754 steps. Power-law graphs have hundreds of such hubs ⇒ many warps stalled ⇒
+   device badly under-utilised. Bounded-degree graphs have balanced lanes ⇒ the simple
+   one-thread-per-vertex scheme is efficient. Standard remedy (**not implemented**): assign
+   threads/warps to a vertex ∝ its degree (edge-parallel, or warp-per-hub with degree binning).
+2. **Per-vertex hashtable memory ∝ density.** `htTotal = Σ_v nextPow2(deg_v+1)` grows with
+   average degree; on dense Orkut (avg 76) this becomes the dominant buffer and is why
+   **com-Orkut OOMs the 16 GB T4** (must run on the A100 40 GB). Hubs also force large
+   global-memory tables that the (linear-probing) hub thread scans slowly.
+3. **Commit-lock + Σ-atomic contention ∝ density / community coarseness.** Verified-commit
+   locks the `(d, best_c)` community pair and atomicAdds Σ[d], Σ[best_c]. Orkut collapses to
+   ~30 communities, so nearly every vertex contends on ~30 locks / Σ counters ⇒ serialised
+   commit. The good graphs have hundreds–thousands of communities ⇒ contention spread thin.
+
+Orkut compounds all three (hub imbalance + density + coarse-community contention) → worst
+case (126 s, 3.4× slower than NetworKit). Youtube is bad almost purely from hubs (its
+average degree is only 5.3).
+
+### 3.3 Why the baselines don't suffer
+
+- **NetworKit PLM** (OpenMP): independent threads + dynamic scheduling / work-stealing — a
+  hub thread just runs longer; it doesn't freeze 31 lock-step siblings.
+- **cuGraph**: degree-aware GPU load balancing (multiple threads per high-degree vertex).
+- Irony: `df_louvain` is a GPU port of the *shared-memory* GVE-Louvain. The per-vertex
+  hashtable is fine for independent CPU threads but a liability under GPU SIMT on power-law
+  graphs without degree-aware work assignment.
+
+### 3.4 Note — supersedes the §1.2 memory estimates
+
+Empirically, **com-LiveJournal (34.7 M edges) DOES fit the 4 GB RTX 3050** — the §1.2
+"~6.7 GB → OOM" was a ~2× pessimistic worst case; the real cost is ≈ 50 B/arc. The actual
+memory wall is **com-Orkut** (117 M edges, avg degree 76): it OOMs the 16 GB T4 (both
+cuGraph and df) and needs the A100. Literature: GPU-Louvain load balancing
+[arXiv:1805.10904], GVE-Louvain [arXiv:2312.04876], ν-Louvain [arXiv:2501.19004].

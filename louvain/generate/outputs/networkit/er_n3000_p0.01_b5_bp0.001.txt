@@ -1,0 +1,2 @@
+ERROR: networkit not installed: No module named 'networkit'
+Install it with:  pip install networkit

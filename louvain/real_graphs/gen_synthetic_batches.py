@@ -3,11 +3,16 @@
 Louvain input (initial graph + batches) for df_louvain / the CUDA binaries.
 
 Follows the random-batch-update methodology of DF Louvain (Sahu, arXiv:2404.19634,
-Section 5.1.4): each batch is an 80% : 20% mix of edge insertions and deletions,
-insertions are uniformly random vertex pairs that are not already edges, deletions
-are uniformly random existing edges, the graph is kept undirected, and no vertices
-are added or removed. Batches are applied cumulatively (later batches see the
-effect of earlier ones), so the stream resembles a real evolving graph.
+Section 5.1.4): each batch is a configurable mix of edge insertions and deletions
+(set by --ins-ratio; the paper uses 80% : 20%), insertions are uniformly random
+vertex pairs that are not already edges, deletions are uniformly random existing
+edges, the graph is kept undirected, and no vertices are added or removed. Batches
+are applied cumulatively (later batches see the effect of earlier ones), so the
+stream resembles a real evolving graph.
+
+No graph snapshot ever contains a duplicate edge: the initial graph is de-duplicated,
+each batch's insertions avoid every edge already present in the current graph (and one
+another), and an edge is never both deleted and re-inserted within the same batch.
 
 Input  : a converted static graph in the CUDA format --
              n m
@@ -40,24 +45,37 @@ import sys
 
 
 def read_static(path):
-    """Read the initial graph: returns (n_nodes, list_of_undirected_edges)."""
+    """Read the initial graph: returns (n_nodes, list_of_unique_undirected_edges).
+    Self-loops and duplicate edges are dropped so the initial snapshot is clean."""
+    seen = set()
+    edges = []
     with open(path) as f:
         first = f.readline().split()
         n, m = int(first[0]), int(first[1])
-        edges = []
         for _ in range(m):
             parts = f.readline().split()
+            if len(parts) < 2:
+                continue
             u, v = int(parts[0]), int(parts[1])
             if u == v:
                 continue
-            edges.append((u, v) if u < v else (v, u))
+            e = (u, v) if u < v else (v, u)
+            if e in seen:
+                continue
+            seen.add(e)
+            edges.append(e)
     return n, edges
 
 
 def gen_batches(n, edges, n_batches, batch_frac, ins_ratio, rng):
-    """Generate cumulative batches. Returns (batches, final_edge_set) where each
-    batch is (deletions, insertions), each a list of (u,v) undirected pairs."""
-    edge_set = set(edges)                       # source of truth for membership
+    """Generate cumulative batches. Returns a list of (deletions, insertions), each a
+    list of (u,v) undirected pairs.
+
+    Guarantees no duplicate edges in any snapshot: deletions are distinct existing
+    edges; insertions are distinct vertex pairs absent from the CURRENT graph (checked
+    before deletions are applied, so a deleted edge is never re-inserted in the same
+    batch); the running graph is then updated (delete, then insert) for the next batch."""
+    edge_set = set(edges)                       # running graph; source of truth
     m0 = len(edge_set)
     n_changed = max(1, round(batch_frac * m0))
     n_ins = max(0, round(ins_ratio * n_changed))
@@ -65,15 +83,16 @@ def gen_batches(n, edges, n_batches, batch_frac, ins_ratio, rng):
 
     batches = []
     for b in range(n_batches):
-        # --- deletions: uniform random existing edges ---
+        # --- deletions: distinct existing edges ---
         cur = list(edge_set)
         k_del = min(n_del, len(cur))
         dels = rng.sample(cur, k_del) if k_del else []
-        for e in dels:
-            edge_set.discard(e)
 
-        # --- insertions: uniform random vertex pairs that are not edges ---
+        # --- insertions: distinct vertex pairs absent from the current graph. Checking
+        #     against edge_set BEFORE removing the deletions ensures an edge is never
+        #     deleted and re-inserted in the same batch, and never duplicates a survivor.
         inss = []
+        seen_ins = set()
         attempts = 0
         cap = n_ins * 50 + 100
         while len(inss) < n_ins and attempts < cap:
@@ -83,13 +102,17 @@ def gen_batches(n, edges, n_batches, batch_frac, ins_ratio, rng):
             if u == v:
                 continue
             e = (u, v) if u < v else (v, u)
-            if e in edge_set:
+            if e in edge_set or e in seen_ins:
                 continue
-            edge_set.add(e)
+            seen_ins.add(e)
             inss.append(e)
         if len(inss) < n_ins:
             print(f"  warn: batch {b+1} only found {len(inss)}/{n_ins} insertions "
                   f"(graph nearly complete?)", file=sys.stderr)
+
+        # --- apply the batch to the running graph for the next iteration ---
+        edge_set.difference_update(dels)
+        edge_set.update(seen_ins)
 
         batches.append((dels, inss))
     return batches

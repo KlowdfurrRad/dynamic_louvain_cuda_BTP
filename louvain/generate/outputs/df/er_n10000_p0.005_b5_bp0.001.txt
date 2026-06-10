@@ -1,18 +1,18 @@
 ===== STATIC =====
-Static: Q=0.031875  communities=2  passes=4  time=304 ms
-[batch 1] ND: Q=0.086793 comms=2 time=138 ms
-[batch 1] DF: Q=0.034094 comms=2 affected0=480 time=4 ms
-[batch 1] DS: Q=0.086529 comms=2 affected0=10000 time=137 ms
-[batch 2] ND: Q=0.089720 comms=2 time=11 ms
-[batch 2] DF: Q=0.036093 comms=2 affected0=500 time=6 ms
-[batch 2] DS: Q=0.089521 comms=2 affected0=10000 time=10 ms
-[batch 3] ND: Q=0.091375 comms=2 time=8 ms
-[batch 3] DF: Q=0.038378 comms=2 affected0=541 time=4 ms
-[batch 3] DS: Q=0.091266 comms=2 affected0=10000 time=8 ms
-[batch 4] ND: Q=0.092423 comms=2 time=7 ms
-[batch 4] DF: Q=0.040730 comms=2 affected0=541 time=4 ms
-[batch 4] DS: Q=0.092292 comms=2 affected0=10000 time=7 ms
-[batch 5] ND: Q=0.093271 comms=2 time=7 ms
-[batch 5] DF: Q=0.042448 comms=2 affected0=501 time=4 ms
-[batch 5] DS: Q=0.093238 comms=2 affected0=10000 time=7 ms
+Static: Q=0.074277  communities=6  passes=4  time=265 ms
+[batch 1] ND: Q=0.114938 comms=6 time=183 ms
+[batch 1] DF: Q=0.076059 comms=6 affected0=503 time=5 ms
+[batch 1] DS: Q=0.109950 comms=6 affected0=10000 time=151 ms
+[batch 2] ND: Q=0.117925 comms=6 time=15 ms
+[batch 2] DF: Q=0.077419 comms=6 affected0=522 time=7 ms
+[batch 2] DS: Q=0.114660 comms=6 affected0=10000 time=21 ms
+[batch 3] ND: Q=0.119583 comms=6 time=11 ms
+[batch 3] DF: Q=0.079112 comms=6 affected0=489 time=5 ms
+[batch 3] DS: Q=0.117196 comms=6 affected0=10000 time=13 ms
+[batch 4] ND: Q=0.120751 comms=6 time=9 ms
+[batch 4] DF: Q=0.080637 comms=6 affected0=538 time=4 ms
+[batch 4] DS: Q=0.119106 comms=6 affected0=10000 time=11 ms
+[batch 5] ND: Q=0.121694 comms=6 time=9 ms
+[batch 5] DF: Q=0.082368 comms=6 affected0=507 time=9 ms
+[batch 5] DS: Q=0.120503 comms=6 affected0=10000 time=9 ms
 DF communities written to C:/Users/LEGION/OneDrive/Documents/raadhes/iitm/Courses/sem7/UGRC/BTP/louvain/generate/outputs/df/er_n10000_p0.005_b5_bp0.001_communities.txt
