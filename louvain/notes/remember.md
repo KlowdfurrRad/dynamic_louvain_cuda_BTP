@@ -176,3 +176,92 @@ total time); SNAP_DIR=`real_graphs/snap/graphs`.
 - Possible: implement free-hashtable-before-aggregate / float weights / 32-bit keys
   to fit LiveJournal in 4 GB; fix large-temporal Static pass-stop (AGG_TOLERANCE→~0.95).
 - Report writing continues; fill TODOs only when the user has benchmark results.
+
+## 13. SESSION-2 UPDATE — baselines, results pipeline, LargeSnap, generated tables
+
+### Four baselines now (df, networkx, networkit, cugraph)
+- `algorithm/`: **nx_louvain.py** (NetworkX, CPU), **networkit_louvain.py** (NetworKit
+  PLM, parallel CPU; `pip install networkit`), **cugraph_louvain.py** (cuGraph, GPU;
+  needs RAPIDS — Linux/WSL/Colab, NOT Windows). All share nx's I/O + output format
+  (parse dynamic input, re-run Louvain per batch = variant "rerun"; print
+  `initial : nodes=.. edges=.. Q=.. communities=.. time=..s` + `batch N : ...`; time only
+  the algorithm). They also consume static 0-batch inputs.
+- **cuGraph isolated-vertex FIX (important):** cuGraph builds its vertex set from the
+  edge list, so declared-but-edgeless vertices are omitted → it undercounted communities
+  by 1–2 orders of magnitude on temporal graphs (converted temporal graph declares
+  N=all-vertices, but initial/early batches leave many isolated since they first appear
+  in later batches; e.g. sx-mathoverflow initial = 5717 isolated of 24759). FIX:
+  `ncomm = parts["partition"].nunique() + max(0, n - G.number_of_vertices())`;
+  `run_louvain(edges, n, resolution)` now takes n. Verified: mathoverflow b0 94→5811,
+  matching df/nx/networkit (~5783). df/nx/networkit always count isolated as singletons.
+
+### Per-dir run + results pattern (uniform)
+Each of `real_graphs/{classic,snap,snap_temporal,LargeSnap}` + `generate/` has
+`run_{df,nx,cugraph,networkit}.sh` (loop a GRAPHS list; output `outputs/<method>/<graph>.txt`;
+skip-missing; never generate/convert) and **compact_results.py** → `results.csv` (scans
+outputs/<method>/<graph>.txt; parses df `Static:` / `[batch] ND/DF/DS:` and nx-style
+`initial`/`batch` lines; KNOWN_METHODS=[df,networkx,networkit,cugraph]; columns
+graph,nodes,edges,method,variant,batch,modularity,communities,passes,affected,time_s).
+⚠ run_*df.sh still prefers `df_louvain.exe` over `df_louvain` — on Colab/Linux delete the
+stray Windows `.exe` or it grabs it and fails "Permission denied" (the flip was never applied).
+
+### LargeSnap (renamed from LiveJournal)
+`real_graphs/LargeSnap/` = large-SNAP dir. `graphs/com-LiveJournal_converted.txt` (renamed
+from com-LiveJournal.txt) + com-Orkut (user is downloading/pasting it himself). Run scripts
+loop `GRAPHS=(com-LiveJournal com-Orkut)`, read `<name>_converted.txt`, output
+`outputs/<method>/<name>.txt` (UNIFORM naming — user had me drop the old `_<method>` suffix).
+- **`real_graphs/convert_snap_streaming.py`** — memory-safe TWO-PASS converter for huge
+  graphs (orkut 117M edges; standard converter's edge-set ~12 GB OOMs). Holds only the
+  ~O(N) vertex remap; assumes simple undirected (com-* ungraph are).
+- **`convert_all.sh`** in snap/ and LargeSnap/ — raw `.txt`/`.txt.gz` → `<name>_converted.txt`.
+  snap/ uses convert_snap_to_dynamic.py (DEDUPS — web-Google is directed); LargeSnap/ uses
+  the streaming converter. Explicit raw→output map (handles com-youtube→com-Youtube + .ungraph
+  strip). Skip-if-exists; auto-detect python (python3/python/py -3).
+
+### report/table.tex is GENERATED — do not hand-edit
+- **`report/gen_dynamic_tables.py`** is the SOURCE OF TRUTH for `report/table.tex`. Reads
+  `louvain/Collab-results/results_snap_temporal.csv`; writes 12 tables (4 temporal graphs ×
+  {modularity, communities, time}). Re-run it after the CSV changes (`py -3 gen_dynamic_tables.py`).
+  Tables: cols Batch|ND|DF|DS|cuGraph|NetworKit|NetworkX; first row "After Static pass"
+  (Static repeated across ND/DF/DS, NOT a multicolumn); captions at BOTTOM; `[H]` (needs
+  `\usepackage{float}`); siunitx+booktabs; per-table adaptive `table-format`. Intro
+  (`\subsection{SNAP Temporal}` + reworded), `\paragraph{Partitioning the edges.}`, and the
+  per-graph stats lines (user reworded to "After pre-processing, the graph contains …") are
+  all generated. `BATCH_INS` dict = per-batch insertion counts (hardcoded from converter).
+  Do NOT re-add the `% Requires` comment (user strips it).
+- Per-graph temporal stats (V / initial E / per-batch / total): CollegeMsg 1,899 / 11,070 /
+  553–554 / 2,768; sx-mathoverflow 24,759 / 150,388 / 7,519–7,520 / 37,598; sx-askubuntu
+  157,222 / 364,552 / 18,227–18,228 / 91,139; sx-superuser 192,409 / 571,656 / 28,582–28,583 /
+  142,914.
+
+### Collab-results CSVs (`louvain/Collab-results/`)
+`results_classic.csv` (karate/dolphins static), `results_snap.csv` (10 static SNAP),
+`results_snap_temporal.csv` (4 temporal: df Static+ND/DF/DS + baselines rerun per batch).
+User RE-RUNS these on Colab and updates them — regenerate table.tex after each update.
+Other report results files: `work-experiments.tex` (graph tables + Consistent Graph Format
+verbatim examples + a TikZ batch-update figure + Classic Graphs results table),
+`large_snap.tex` (Large-SNAP subsection + A100 env table).
+
+### Environment (Colab is the benchmark platform now)
+- **A100 run** (the large graphs com-LiveJournal + com-Orkut): Google Colab, Intel Xeon
+  @2.20GHz (1 physical / 2 logical cores), **83.5 GB RAM**, Ubuntu 22.04.5, **A100 40 GB**,
+  driver 580.82.07, driver CUDA 13.0, **nvcc 12.8**, g++ 11.4.0, **Python 3.12.13**.
+- **T4 (16 GB)** for smaller graphs. com-LiveJournal even runs on the LOCAL 4 GB RTX 3050.
+- ⚠ large_snap.tex quotes `nvcc -O3 -arch=sm_86` but A100=sm_80 / T4=sm_75 (sm_86 is the
+  local card) — fix the arch if it matters in the report.
+
+### Memory model CORRECTED (supersedes §4.5 / §11)
+- df_louvain real cost ≈ **~50 B/arc** (empirical: LiveJournal 34.7M edges / 69.4M arcs fits
+  the 4 GB RTX 3050). The earlier worst-case 184 B/edge was a ~2× loose upper bound.
+- com-Orkut (117M edges / 234M arcs): linear extrapolation ~12 GB, BUT **user observed it
+  OOMs on the 16 GB T4** for cuGraph AND df → run on A100 (40 GB).
+- Python host-RAM for nx/networkit/cugraph parsing ≈ **0.25 GB per million edges** (file
+  tokens + tuple list). com-Orkut ≈ 29 GB host → needs the A100 node's 83.5 GB (a plain T4
+  Colab node has only ~13 GB → the CPU/cuGraph baselines OOM on the host there).
+
+### User workflow preferences learned this session
+- Wants UNIFORM naming/conventions across dirs. Don't re-add comments he strips.
+- Runs GPU/cuGraph/networkit on Colab himself; I prepare scripts/converters and (when
+  allowed) run pure-Python/syntax checks locally. He edits .tex/.py directly — preserve
+  his edits (read before editing; he hand-edits table.tex's generator, intro wording, etc.).
+- `table.tex` is generated: change the CSV (or `BATCH_INS`) and re-run the generator.

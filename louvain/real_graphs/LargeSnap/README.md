@@ -1,0 +1,2 @@
+Due to the large size of the datasets, we are not able to share the data files directly on GitHub. Please download from SNAP (com-Orkut and com-LiveJournal).
+Place the .ungraph.txt in a ./graph folder and run ./convert_all.sh
